@@ -36,7 +36,7 @@ See [README](FreePDK45/README) for more information.
 
 ### `inv.cir`
 Inverter with 1 PMOS and 1 NMOS.
-(Design Requirement: TPDR=TPDR)
+(Design Requirement: TPDR=TPDR when CL=24fF)
 
 Simulate with
 ```shell
@@ -49,7 +49,7 @@ ngspice inv.cir
 | PMOS | 450nm | 45nm |
 | NMOS | 300nm | 45nm |
 
-TPDR: 0.0523nm, TPDF: 0.0517nm, TPD: 0.0520nm.
+TPDR: 0.0523ns, TPDF: 0.0517ns, TPD: 0.0520ns.
 
 ![CMOS Inverter Response](fig/plot_inv_t.svg)
 
