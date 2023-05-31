@@ -14,7 +14,7 @@
 ## Summary
 SPICE simulation of CMOS Circuits using open-source NGSPICE.
 
-** Note** This is the course project of *Fundamentals of VLSI Design*, Southeast University, 2023 Spring.
+> **Note** This is the course project of *Fundamentals of VLSI Design*, Southeast University, 2023 Spring.
 
 ## Environments
 ### Preparation
@@ -22,7 +22,7 @@ Install [NGSPICE](https://ngspice.sourceforge.io/) CLI app.
 
 ### Settings
 NGSPICE is set to be compatible with HSPICE,
-which is set in `.spiceinit`.
+which is set in [`.spiceinit`](.spiceinit).
 
 ### Development
 My development environments:
@@ -36,6 +36,22 @@ See [README](FreePDK45/README) for more information.
 
 ### `inv.cir`
 Inverter with 1 PMOS and 1 NMOS.
+(Design Requirement: TPDR=TPDR)
+
+Simulate with
+```shell
+ngspice inv.cir
+```
+
+**Designed MOS Parameters**
+| MOS | W | L |
+| :-: | :-: | :-: |
+| PMOS | 450nm | 45nm |
+| NMOS | 300nm | 45nm |
+
+TPDR: 0.0523nm, TPDF: 0.0517nm, TPD: 0.0520nm.
+
+![CMOS Inverter Response](fig/plot_inv_t.svg)
 
 ## License
 Copyright (C) 2023 Wuqiong Zhao (me@wqzhao.org)

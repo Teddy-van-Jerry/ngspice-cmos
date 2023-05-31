@@ -1,2 +1,6 @@
+# SVG Plots
+*.svg
+!fig/*.svg
+
 # macOS
 .DS_Store

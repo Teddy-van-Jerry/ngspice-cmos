@@ -1,17 +1,95 @@
+* =============================================================================
 * Circuit    : CMOS Inverter with 1 NMOS + 1 PMOS
 * Description: T_r = T_f when C_L = 0.024pF
 *
 * Author     : Wuqiong Zhao (me@wqzhao.org)
 * Date       : 2023-06-01
 * License    : MIT
+* =============================================================================
+
+* Reference:
+* https://github.com/cornell-ece5745/ece5745-tut10-spice/blob/master/sim/inv-sim.sp
 
 .title CMOS Inverter
 
+* Parameters and Model
+* -----------------------------------------------------------------------------
+.param VDD='1.0V'
+.temp  27
 .inc ./FreePDK45/ff.inc
-.option TEMP=27C
+
+* Supply Voltage Source
+* -----------------------------------------------------------------------------
+Vdd vdd gnd VDD
+
+* MOS
+* -----------------------------------------------------------------------------
+*  src  date drain body type
+M1 vdd  in   out   vdd  PMOS_VTL W=450nm L=45nm
+M2 gnd  in   out   gnd  NMOS_VTL W=300nm L=45nm
+
+* Load Capacitor
+* -----------------------------------------------------------------------------
+CL out gnd 24fF
+
+* Input Signals
+* -----------------------------------------------------------------------------
+Vin in gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   1.9ns VDD
++   2.1ns  0V
++   3.0ns  0V
++ )
+
+* Analysis
+* -----------------------------------------------------------------------------
+.ic    V(out)=VDD
+.tran  0.005ns 3ns
 
 .control
+  run
+  * >>>>> plot >>>>>>
+  set xgridwidth  = 2
+  set xbrushwidth = 3
+  * set nolegend
+  * "svgwidth", "svgheight",  "svgfont-size", "svgfont-width", "svguse-color", "svgstroke-width", "svggrid-width",
+  set svg_intopts = ( 1024 256 16 0 1 2 0 )
+  * "svgbackground", "svgfont-family", "svgfont"
+  setcs svg_stropts = ( blue Arial Arial )
+  set hcopydevtype = svg
+  set color0       = white
+  set color1       = black
+  set color2       = blue
+  set color3       = red
 
+  hardcopy fig/plot_inv_t.svg
+  + out in
+  + title 'CMOS Inverter'
+  + xlabel 't'
+  + ylabel 'V Out'
+  + ylimit 0 1
+
+  * for MS Windows, using Edge
+  if $oscompiled = 1 | $oscompiled = 8
+    shell Start fig/plot_inv_t.svg
+  else
+    if $oscompiled = 7
+  * macOS (using Safari, no need to install X11)
+      shell open -a safari fig/plot_inv_t.svg &
+    else
+  * for CYGWIN, Linux, using feh and X11
+      shell feh --magick-timeout 1 fig/plot_inv_t.svg &
+    end
+  end
+  * <<<<< plot <<<<<
 .endc
+
+* Measure tpdr, tpdf and tpd
+.measure tran tpdr trig V(in) val='VDD/2' fall=1 targ V(out) val='VDD/2' rise=1
+.measure tran tpdf trig V(in) val='VDD/2' rise=1 targ V(out) val='VDD/2' fall=1
+.measure tran tpd param='(tpdr+tpdf)/2'
 
 .end
