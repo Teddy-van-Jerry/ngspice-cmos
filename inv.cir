@@ -1,0 +1,17 @@
+* Circuit    : CMOS Inverter with 1 NMOS + 1 PMOS
+* Description: T_r = T_f when C_L = 0.024pF
+*
+* Author     : Wuqiong Zhao (me@wqzhao.org)
+* Date       : 2023-06-01
+* License    : MIT
+
+.title CMOS Inverter
+
+.inc ./FreePDK45/ff.inc
+.option TEMP=27C
+
+.control
+
+.endc
+
+.end
