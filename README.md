@@ -1,5 +1,8 @@
 # NGSPICE Simulation of CMOS Circuits <!-- omit in toc -->
 
+- GitHub Repo: [Teddy-van-Jerry/ngspice-cmos](https://github.com/Teddy-van-Jerry/ngspice-cmos)
+- Website: [spice.tvj.one](https://spice.tvj.one)
+
 **Table of Contents**
 - [Summary](#summary)
 - [Environments](#environments)
