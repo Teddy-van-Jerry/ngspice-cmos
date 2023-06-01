@@ -13,8 +13,8 @@ whitelist:
 exclude:
   - FreePDK45
   - LICENSE
-  - *.cir
-  - *.tex
+  - "*.cir"
+  - "*.tex"
   - .spiceinit
   - .github
   - .gitignore
