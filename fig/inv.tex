@@ -18,7 +18,7 @@
     (M2.S) to ++ (0, 0) node [tlground] {}
     ($(M1.D)!0.5!(M2.D)$) node [null n] (out-branch) {}
     (M1.D) to (M2.D)
-    (out-branch) to[short, -*] ++ (1, 0) node [right, null n] (L) {}
+    (out-branch) to[short, *-*] ++ (1, 0) node [right, null n] (L) {}
     (L) to[short, -o] ++ (0.5, 0) node [right, la] {out}
     (L) to[short, C, l={$C_L=\qty{24}{fF}$}] ++ (0, -1) node [tlground] {}
   ;
