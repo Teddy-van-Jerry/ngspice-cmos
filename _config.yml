@@ -1,0 +1,11 @@
+markdown: GFM
+
+plugins:
+  - jekyll-redirect-from
+whitelist:
+  - jekyll-redirect-from
+
+exclude:
+  - FreePDK45
+  - .spiceinit
+  - .github
