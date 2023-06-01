@@ -48,10 +48,11 @@ ngspice inv.cir
 ```
 
 **Designed MOS Parameters**
-| MOS | W | L |
-| :-: | :-: | :-: |
-| PMOS | 450nm | 45nm |
-| NMOS | 300nm | 45nm |
+
+|  MOS  |   W   |   L   |
+| :---: | :---: | :---: |
+| PMOS  | 450nm | 45nm  |
+| NMOS  | 300nm | 45nm  |
 
 TPDR: 0.0523ns, TPDF: 0.0517ns, TPD: 0.0520ns.
 
