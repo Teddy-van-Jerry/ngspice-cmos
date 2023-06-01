@@ -56,6 +56,12 @@ ngspice inv.cir
 
 TPDR: 0.0523ns, TPDF: 0.0517ns, TPD: 0.0520ns.
 
+**Schematic**
+
+![CMOS Inverter Schematic](fig/inv_schematic.svg)
+
+**Response**
+
 ![CMOS Inverter Response](fig/plot_inv_t.svg)
 
 ## License

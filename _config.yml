@@ -12,7 +12,11 @@ whitelist:
 
 exclude:
   - FreePDK45
-  - inv.cir
+  - LICENSE
+  - *.cir
+  - *.tex
   - .spiceinit
   - .github
   - .gitignore
+  - .gitattributes
+  - .vscode

@@ -1,0 +1,17 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{newtxtext,newtxmath}
+\usepackage{circuitikz}
+\usetikzlibrary{calc, positioning}
+\ctikzset{
+  , bipoles/capacitor/width=.1
+  , bipoles/capacitor/height=.3
+  , label/align = straight
+  , tripoles/pmos style/emptycircle
+}
+
+\begin{document}
+  \pagecolor{white}
+  \input{inv}
+\end{document}
