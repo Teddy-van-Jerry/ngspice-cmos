@@ -17,6 +17,7 @@
   - [NAND2](#nand2)
     - [Design](#design-1)
     - [Simulation](#simulation-1)
+  - [AND2](#and2)
 - [License](#license)
 
 ## Summary
@@ -119,7 +120,12 @@ ngspice nand2.cir
 ```
 
 **Response**
-![CMOS NAND2 Response](fig/plot_and2_t.svg)
+![CMOS NAND2 Response](fig/plot_nand2_t.svg)
+
+### AND2
+
+**Response**
+![CMOS AND2 Response](fig/plot_and2_t.svg)
 
 ## License
 Copyright (C) 2023 Wuqiong Zhao (me@wqzhao.org)

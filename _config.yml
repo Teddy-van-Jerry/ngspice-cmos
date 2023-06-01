@@ -14,6 +14,7 @@ exclude:
   - FreePDK45
   - LICENSE
   - "*.cir"
+  - "*.inc"
   - "*.tex"
   - .spiceinit
   - .github
