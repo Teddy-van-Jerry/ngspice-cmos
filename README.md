@@ -11,7 +11,7 @@
   - [Development](#development)
 - [Sources](#sources)
   - [`FreePDK45/`](#freepdk45)
-  - [`inv.cir`](#invcir)
+  - [`inv.cir` (CMOS Inverter)](#invcir-cmos-inverter)
 - [License](#license)
 
 ## Summary
@@ -37,9 +37,10 @@ My development environments:
 This is a 45nm CMOS library.
 See [README](FreePDK45/README) for more information.
 
-### `inv.cir`
+### `inv.cir` (CMOS Inverter)
 Inverter with 1 PMOS and 1 NMOS.
 (Design Requirement: TPDR=TPDR when CL=24fF)
+[[Source File]](inv.cir)
 
 Simulate with
 ```shell

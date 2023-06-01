@@ -7,5 +7,7 @@ whitelist:
 
 exclude:
   - FreePDK45
+  - inv.cir
   - .spiceinit
   - .github
+  - .gitignore
