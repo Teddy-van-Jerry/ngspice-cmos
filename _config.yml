@@ -1,4 +1,6 @@
-markdown: GFM
+markdown: kramdown
+kramdown:
+  input: GFM
 
 plugins:
   - jekyll-redirect-from
