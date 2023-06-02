@@ -2,7 +2,7 @@
 
 - GitHub: [Teddy-van-Jerry/ngspice-cmos](https://github.com/Teddy-van-Jerry/ngspice-cmos)
 - Website: [spice.tvj.one](https://spice.tvj.one)
-- PDF Report: [NGSPICE Simulation of CMOS Circuits](report/NGSPICE_CMOS_Report.pdf)
+- PDF Report: [`NGSPICE_CMOS_Report.pdf`](report/NGSPICE_CMOS_Report.pdf)
 
 **Table of Contents**
 - [Summary](#summary)
@@ -19,6 +19,7 @@
     - [Design](#design-1)
     - [Simulation](#simulation-1)
   - [AND2](#and2)
+  - [NOR2](#nor2)
   - [NAND8](#nand8)
   - [AND8](#and8)
     - [AND8a (Symmetrical Design)](#and8a-symmetrical-design)
@@ -109,8 +110,8 @@ The CMOS NAND2 gate is symmetrically designed with parameters for the worst case
 ```spice
 .subckt NAND2 gnd i1 i2 o vdd
   *   src  gate drain body type
-  Mp1 vdd  i1   o     vdd  PMOS_VTL W=460nm L=45nm
-  Mp2 vdd  i2   o     vdd  PMOS_VTL W=460nm L=45nm
+  Mp1 vdd  i1   o     vdd  PMOS_VTL W=360nm L=45nm
+  Mp2 vdd  i2   o     vdd  PMOS_VTL W=360nm L=45nm
   Mn1 t1   i1   o     gnd  NMOS_VTL W=450nm L=45nm
   Mn2 gnd  i2   t1    gnd  NMOS_VTL W=450nm L=45nm
 .ends NAND2
@@ -130,6 +131,11 @@ ngspice nand2.cir
 
 **Response**
 ![CMOS AND2 Response](fig/plot_and2_t.svg)
+
+### NOR2
+
+**Response**
+![CMOS NOR2 Response](fig/plot_nor2_t.svg)
 
 ### NAND8
 

@@ -1,0 +1,101 @@
+* =============================================================================
+* Circuit    : CMOS NOR2 Gate
+* Description: 2 PMOS + 2 NMOS
+*
+* Author     : Wuqiong Zhao (me@wqzhao.org)
+* Date       : 2023-06-02
+* License    : MIT
+* =============================================================================
+
+.title CMOS NOR2
+
+* Parameters and Model
+* -----------------------------------------------------------------------------
+.param VDD='1.0V'
+.temp  27
+.inc ./FreePDK45/ff.inc
+
+* Supply Voltage Source
+* -----------------------------------------------------------------------------
+Vdd vdd gnd VDD
+
+* NOR2
+* -----------------------------------------------------------------------------
+XNOR2 gnd in1 in2 out vdd NOR2
+.inc ./nor2.inc
+
+* Load Capacitor
+* -----------------------------------------------------------------------------
+CL out gnd 24fF
+
+* Input Signals
+* -----------------------------------------------------------------------------
+Vin1 in1 gnd PWL
++ (
++   0.0ns VDD
++   0.9ns VDD
++   1.1ns  0V
++   3.0ns  0V
++ )
+
+Vin2 in2 gnd PWL
++ (
++   0.0ns VDD
++   0.9ns VDD
++   1.1ns  0V
++   1.9ns  0V
++   2.1ns VDD
++   3.0ns VDD
++ )
+
+* Analysis
+* -----------------------------------------------------------------------------
+.ic    V(out)=0V
+.tran  0.005ns 3ns
+
+.control
+  run
+  * >>>>> plot >>>>>>
+  set xgridwidth  = 2
+  set xbrushwidth = 3
+  * "svgwidth", "svgheight",  "svgfont-size", "svgfont-width", "svguse-color", "svgstroke-width", "svggrid-width",
+  set svg_intopts = ( 1024 256 16 0 1 2 0 )
+  * "svgbackground", "svgfont-family", "svgfont"
+  setcs svg_stropts = ( white Arial Arial )
+  set hcopydevtype = svg
+  set color1       = black
+  set color2       = red
+  set color3       = blue
+  set color4       = green
+
+  hardcopy fig/plot_nor2_t.svg
+  + in1 out in2
+  + title 'CMOS NOR2'
+  + xlabel 't'
+  + ylabel 'Voltage'
+  + ylimit 0 1
+
+  * for MS Windows, using Edge
+  if $oscompiled = 1 | $oscompiled = 8
+    shell Start fig/plot_nor2_t.svg
+  else
+    if $oscompiled = 7
+      * macOS (using Safari, no need to install X11)
+      shell open -a safari fig/plot_nor2_t.svg &
+    else
+      * for CYGWIN, Linux, using feh and X11
+      shell feh --magick-timeout 1 fig/plot_nor2_t.svg &
+    end
+  end
+  * <<<<< plot <<<<<
+.endc
+
+* Measurement
+* -----------------------------------------------------------------------------
+.measure tran tr   trig V(out) val='VDD*0.1' rise=1 targ V(out) val='VDD*0.9' rise=1
+.measure tran tf   trig V(out) val='VDD*0.9' fall=1 targ V(out) val='VDD*0.1' fall=1
+.measure tran tpdr trig V(in2) val='VDD/2'   fall=1 targ V(out) val='VDD/2'   rise=1
+.measure tran tpdf trig V(in2) val='VDD/2'   rise=1 targ V(out) val='VDD/2'   fall=1
+.measure tran tpd  param='(tpdr+tpdf)/2'
+
+.end
