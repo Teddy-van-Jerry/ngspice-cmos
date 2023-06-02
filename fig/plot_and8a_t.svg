@@ -17,7 +17,7 @@ t
 voltage
 </text>
 <text stroke="none" fill="black" font-size="16" x="10" y="16">
-tran1: cmos and2
+tran1: cmos and8a
 </text>
 <path stroke="black" stroke-width="2" d="M75 192l0 -128"/>
 <text stroke="none" fill="black" font-size="16" x="60" y="216">
@@ -54,13 +54,17 @@ ns
 <text stroke="none" fill="black" font-size="16" x="43" y="200">
 0.0
 </text>
-<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M75 128l894 0"/>
-<text stroke="none" fill="black" font-size="16" x="43" y="136">
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M75 150l894 0"/>
+<text stroke="none" fill="black" font-size="16" x="43" y="158">
 0.5
 </text>
-<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M75 64l894 0"/>
-<text stroke="none" fill="black" font-size="16" x="43" y="72">
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M75 108l894 0"/>
+<text stroke="none" fill="black" font-size="16" x="43" y="116">
 1.0
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M75 66l894 0"/>
+<text stroke="none" fill="black" font-size="16" x="43" y="74">
+1.5
 </text>
 <text stroke="none" fill="black" font-size="16" x="10" y="32">
 V
@@ -69,18 +73,18 @@ V
 <text stroke="none" fill="black" font-size="16" x="501" y="32">
 in1
 </text>
-<path stroke="red" d="M75 192l268 0 1 -1 0 -1 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 1 -2"/>
-<path stroke="red" d="M403 64l566 0"/>
+<path stroke="red" d="M75 192l294 0M395 192l1 -7 2 -7 1 -8 2 -9 1 -8 1 -5 0 -2 1 -3 1 -5 2 -6 1 -4 2 -2 1 -2 1 -1 2 -1 1 -2 2 -1 4 -4 2 -1 1 -1 2 0 1 -1 2 -1 1 0 2 -1 1 0 2 -1 1 0 2 -1 7 0 2 -1 266 0 2 -1 3 0 1 -1 2 -1 1 0 2 -1 1 0 2 -1 15 0"/>
+<path stroke="red" d="M742 102l1 1 2 0 1 1 2 0 1 1 5 0 1 1 17 0 1 1 196 0"/>
 <path stroke="blue" d="M75 23l44 0"/>
 <text stroke="none" fill="black" font-size="16" x="129" y="32">
 out
 </text>
-<path stroke="blue" d="M75 192l299 0 1 -1 2 0 3 -3 1 -3 2 -4 1 -6 2 -7 1 -8 2 -7 1 -8 2 -7 1 -8 2 -7 1 -7 2 -7 1 -6 2 -6 1 -6 1 -2 0 -1 1 -2 1 -3 3 -6 2 -3 1 -2 4 -4 2 -1 1 0 2 -1 1 0 2 -1 6 0 1 -1 240 0 2 1 1 0 2 1 1 1 2 1 1 3 2 4 1 6 2 7 1 8"/>
-<path stroke="blue" d="M685 96l2 7 1 8 2 8 1 7 2 7 1 7 2 7 1 6 2 6 1 5 1 2M701 167l0 -1M701 167l1 2 1 3 2 3 1 3 2 2 2 4 2 1 1 1 2 1 1 1 2 1 1 0 2 1 1 0 2 1 7 0 2 1 236 0"/>
+<path stroke="blue" d="M75 192l335 0 1 -1 1 -2 2 -3 1 -4 2 -4 1 -4 2 -5 1 -5 2 -4 1 -5 2 -5 1 -5 2 -4 1 -5 2 -4 1 -4 2 -3 1 -3 2 -3 1 -2 2 -2 1 -2 2 -1 1 -1 2 -1 1 -1 2 0 1 -1 5 0 1 -1 268 0 2 1 1 1 2 1 1 1 2 1 1 2 2 2 1 2 2 3 1 4 2 4 1 4 2 4"/>
+<path stroke="blue" d="M745 137l1 5 2 5 1 4 2 5 1 4 2 4 1 4 2 4 1 3 2 2 1 3 6 6 2 1 1 1 2 1 1 0 2 1 3 0 1 1 6 0 1 1 183 0"/>
 <path stroke="green" d="M447 39l44 0"/>
 <text stroke="none" fill="black" font-size="16" x="501" y="48">
-in2
+in8
 </text>
-<path stroke="green" d="M75 192l268 0 1 -1 0 -1 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3"/>
-<path stroke="green" d="M402 66l1 -2 238 0 1 1M642 66l0 -1M642 66l1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 2 4 1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 2 4 1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 2 4 1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 1 2 268 0"/>
+<path stroke="green" d="M75 192l294 0M395 192l1 -6 2 -7 1 -7 2 -7 1 -7 1 -4 0 -2 1 -2 1 -5 2 -6 1 -5 2 -5 2 -6 2 -3 1 -2 2 -2 1 -2 2 -1 1 -1 2 -1 1 -1 2 0 1 -1 3 0 2 -1 4 0 2 -1 241 0 2 -1 4 0 2 -1 3 0 1 -1 2 0 1 -1 3 0 2 -1 6 0 3 3 2 6 2 4 1 6"/>
+<path stroke="green" d="M713 121l2 8 1 9 2 10 1 11 2 13 1 9 2 5 1 2 2 1 1 0 2 1 6 0 1 1 20 0 1 1 211 0"/>
 </svg>

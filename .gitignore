@@ -276,6 +276,7 @@ TSWLatexianTemp*
 *.lpz
 
 # SVG Plots
+svg-inkscape
 *.svg
 !fig/*.svg
 

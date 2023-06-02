@@ -1,7 +1,8 @@
 # NGSPICE Simulation of CMOS Circuits <!-- omit in toc -->
 
-- GitHub Repo: [Teddy-van-Jerry/ngspice-cmos](https://github.com/Teddy-van-Jerry/ngspice-cmos)
+- GitHub: [Teddy-van-Jerry/ngspice-cmos](https://github.com/Teddy-van-Jerry/ngspice-cmos)
 - Website: [spice.tvj.one](https://spice.tvj.one)
+- PDF Report: [NGSPICE Simulation of CMOS Circuits](report/NGSPICE_CMOS_Report.pdf)
 
 **Table of Contents**
 - [Summary](#summary)
@@ -18,6 +19,9 @@
     - [Design](#design-1)
     - [Simulation](#simulation-1)
   - [AND2](#and2)
+  - [NAND8](#nand8)
+  - [AND8](#and8)
+    - [AND8a (Symmetrical Design)](#and8a-symmetrical-design)
 - [License](#license)
 
 ## Summary
@@ -126,6 +130,15 @@ ngspice nand2.cir
 
 **Response**
 ![CMOS AND2 Response](fig/plot_and2_t.svg)
+
+### NAND8
+
+### AND8
+
+#### AND8a (Symmetrical Design)
+
+**Response**
+![CMOS AND8 Response](fig/plot_and8a_t.svg)
 
 ## License
 Copyright (C) 2023 Wuqiong Zhao (me@wqzhao.org)

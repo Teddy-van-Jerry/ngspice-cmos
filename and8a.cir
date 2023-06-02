@@ -1,36 +1,40 @@
 * =============================================================================
-* Circuit    : CMOS AND2 Gate
-* Description: NMOS2 + Inverter (3 PMOS + 3 NMOS)
+* Circuit    : CMOS AND8 Gate Type A
+* Description: 8 PMOS + 8 NMOS (Symmetrical Design) + 1 Inv
 *
 * Author     : Wuqiong Zhao (me@wqzhao.org)
 * Date       : 2023-06-02
 * License    : MIT
 * =============================================================================
 
-.title CMOS AND2
+.title CMOS AND8
 
 * Parameters and Model
 * -----------------------------------------------------------------------------
 .param VDD='1.0V'
-.temp  27
+.temp  25
 .inc ./FreePDK45/ff.inc
 
 * Supply Voltage Source
 * -----------------------------------------------------------------------------
 Vdd vdd gnd VDD
 
-* AND2
+* AND8A
 * -----------------------------------------------------------------------------
-XAND2 gnd in1 in2 out vdd AND2
-.inc ./and2.inc
+XAND8 gnd in1 in2 in3 in4 in5 in6 in7 in8 out vdd AND8A
+.inc ./and8a.inc
 
-* Load Capacitor
+* Test Circuit
 * -----------------------------------------------------------------------------
-CL out gnd 24fF
+XTest gnd
++     ii1 ii2 ii3 ii4 ii5 ii6 ii7 ii8
++     in1 in2 in3 in4 in5 in6 in7 in8
++     out vdd               INV2_TEST
+.inc ./and8_test_inv2.inc
 
 * Input Signals
 * -----------------------------------------------------------------------------
-Vin1 in1 gnd PWL
+Vii1 ii1 gnd PWL
 + (
 +   0.0ns  0V
 +   0.9ns  0V
@@ -38,7 +42,55 @@ Vin1 in1 gnd PWL
 +   3.0ns VDD
 + )
 
-Vin2 in2 gnd PWL
+Vii2 ii2 gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   3.0ns VDD
++ )
+
+Vii3 ii3 gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   3.0ns VDD
++ )
+
+Vii4 ii4 gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   3.0ns VDD
++ )
+
+Vii5 ii5 gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   3.0ns VDD
++ )
+
+Vii6 ii6 gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   3.0ns VDD
++ )
+
+Vii7 ii7 gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   3.0ns VDD
++ )
+
+Vii8 ii8 gnd PWL
 + (
 +   0.0ns  0V
 +   0.9ns  0V
@@ -68,23 +120,24 @@ Vin2 in2 gnd PWL
   set color3       = blue
   set color4       = green
 
-  hardcopy fig/plot_and2_t.svg
-  + in1 out in2
-  + title 'CMOS AND2'
+  hardcopy fig/plot_and8a_t.svg
+  + in1 out in8
+  + title 'CMOS AND8a'
   + xlabel 't'
   + ylabel 'Voltage'
-  + ylimit 0 1
+  + ylimit 0 1.5
+  + ydelta 0.5
 
   * for MS Windows, using Edge
   if $oscompiled = 1 | $oscompiled = 8
-    shell Start fig/plot_and2_t.svg
+    shell Start fig/plot_and8a_t.svg
   else
     if $oscompiled = 7
       * macOS (using Safari, no need to install X11)
-      shell open -a safari fig/plot_and2_t.svg &
+      shell open -a safari fig/plot_and8a_t.svg &
     else
       * for CYGWIN, Linux, using feh and X11
-      shell feh --magick-timeout 1 fig/plot_and2_t.svg &
+      shell feh --magick-timeout 1 fig/plot_and8a_t.svg &
     end
   end
   * <<<<< plot <<<<<
@@ -95,7 +148,10 @@ Vin2 in2 gnd PWL
 .measure tran tr   trig V(out) val='VDD*0.1' rise=1 targ V(out) val='VDD*0.9' rise=1
 .measure tran tf   trig V(out) val='VDD*0.9' fall=1 targ V(out) val='VDD*0.1' fall=1
 .measure tran tpdr trig V(in1) val='VDD/2'   rise=1 targ V(out) val='VDD/2'   rise=1
-.measure tran tpdf trig V(in2) val='VDD/2'   fall=1 targ V(out) val='VDD/2'   fall=1
+.measure tran tpdf trig V(in8) val='VDD/2'   fall=1 targ V(out) val='VDD/2'   fall=1
 .measure tran tpd  param='(tpdr+tpdf)/2'
+
+* power dissipation of the AND8 gate
+.inc ./and8_test_pow.inc
 
 .end

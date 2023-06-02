@@ -1,4 +1,8 @@
 {
+    "files.associations": {
+        "*.cir": "spice",
+        "*.inc": "spice"
+    },
     "cSpell.words": [
         "NGSPICE",
         "VLSI"

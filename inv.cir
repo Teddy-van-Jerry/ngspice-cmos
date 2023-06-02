@@ -74,10 +74,10 @@ Vin in gnd PWL
     shell Start fig/plot_inv_t.svg
   else
     if $oscompiled = 7
-  * macOS (using Safari, no need to install X11)
+      * macOS (using Safari, no need to install X11)
       shell open -a safari fig/plot_inv_t.svg &
     else
-  * for CYGWIN, Linux, using feh and X11
+      * for CYGWIN, Linux, using feh and X11
       shell feh --magick-timeout 1 fig/plot_inv_t.svg &
     end
   end

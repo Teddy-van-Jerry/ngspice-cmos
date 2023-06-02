@@ -80,10 +80,10 @@ Vin2 in2 gnd PWL
     shell Start fig/plot_nand2_t.svg
   else
     if $oscompiled = 7
-  * macOS (using Safari, no need to install X11)
+      * macOS (using Safari, no need to install X11)
       shell open -a safari fig/plot_nand2_t.svg &
     else
-  * for CYGWIN, Linux, using feh and X11
+      * for CYGWIN, Linux, using feh and X11
       shell feh --magick-timeout 1 fig/plot_nand2_t.svg &
     end
   end
@@ -96,6 +96,6 @@ Vin2 in2 gnd PWL
 .measure tran tf   trig V(out) val='VDD*0.9' fall=1 targ V(out) val='VDD*0.1' fall=1
 .measure tran tpdr trig V(in2) val='VDD/2'   fall=1 targ V(out) val='VDD/2'   rise=1
 .measure tran tpdf trig V(in1) val='VDD/2'   rise=1 targ V(out) val='VDD/2'   fall=1
-.measure tran tpd param='(tpdr+tpdf)/2'
+.measure tran tpd  param='(tpdr+tpdf)/2'
 
 .end

@@ -12,5 +12,10 @@
   XInv  gnd o1     o vdd INV
 .ends AND2
 
+.subckt AND gnd i1 i2 o vdd
+  XNAND gnd i1 i2 o1 vdd NAND2
+  XInv  gnd o1     o vdd INV
+.ends AND
+
 .inc ./nand2.inc
 .inc ./inv.inc

@@ -1,0 +1,186 @@
+\documentclass{scrartcl}
+\usepackage[margin=25mm]{geometry}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{svg}
+\usepackage{siunitx}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usepackage{listings}
+\usepackage[headsepline, autooneside=false, automark]{scrlayer-scrpage}
+\usepackage[colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\clearpairofpagestyles
+\ihead{\leftmark}
+\ohead{\rightmark}
+\cfoot{\thepage}
+\usetikzlibrary{calc, positioning}
+\ctikzset{
+  , bipoles/capacitor/width=.1
+  , bipoles/capacitor/height=.3
+  , label/align = straight
+  , tripoles/pmos style/emptycircle
+}
+\definecolor{dkgreen}{rgb}{0,0.5,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\makeatletter
+
+% --- a couple of switches to keep track of the context ---
+% this switch will be set if we have encountered visible character on the current line
+\newif\ifVisCharOccured@spice@
+% this switch will be set when we're inside a one-line comment
+\newif\ifinlcom@spice@
+
+% flip the switch if visible characters occur on the line
+\lst@AddToHook{PostOutput}
+{%
+  \lst@ifwhitespace%
+  \else
+    \global\VisCharOccured@spice@true%
+  \fi
+}
+
+% reset switches at the end of each line
+\lst@AddToHook{InitVarsEOL}
+{%
+  \global\inlcom@spice@false%
+  \global\VisCharOccured@spice@false%
+}
+
+% reset switches at the beginning of each listing
+\lst@AddToHook{PreInit}
+{%
+  \VisCharOccured@spice@false
+  \inlcom@spice@false
+}
+
+% helper macro to handle instances of `*'
+\newcommand\processlcom@spice
+{%
+  % if we're already inside a comment, we keep applying the comment style
+  \ifinlcom@spice@%
+    \lst@commentstyle%
+  \else
+    % Otherwise, we apply the comment style only if no visible characters have
+    % been encountered before the `*' on the current line.
+    \ifVisCharOccured@spice@%
+    \else
+      \global\inlcom@spice@true%
+      \lst@commentstyle%
+    \fi
+  \fi
+}
+\makeatother
+\lstset{
+  numbers=left,
+  frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=fixed,
+  framerule=1pt,
+  rulecolor=\color{gray!35},
+  backgroundcolor=\color{gray!5},
+  basicstyle={\ttfamily\scriptsize},
+  numberstyle=\tiny\sffamily\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2,
+  extendedchars=false,
+  postbreak=\mbox{\hspace{-5.4mm}\textcolor{purple}{$\hookrightarrow$}\space},
+  caption={\ttfamily\protect\filename@parse{\lstname}\protect\filename@base\text{.}\protect\filename@ext},
+  % comment=[s]{*},
+  sensitive = false,
+  alsoletter = {.},
+  comment = *[l][\processlcom@spice]{*},
+  string = [b]{'},
+  morekeywords = {.title, .param, .temp, .inc, .ic, .tran, .control, .endc, .end, .ends, .measure, .subckt},
+}
+
+
+\title{NGSPICE Simulation of CMOS Circuits}
+\author{Wuqiong Zhao%
+  \thanks{\>
+    This is the course project of \textsc{Fundamentals of VLSI Desig}n, Southeast University, 2023 Spring.\\
+    The author is with the National Mobile Communications Research Laboratory,
+    Southeast University, Nanjing 211189, China. (E-Mail: \href{mailto:me@wqzhao.org}{me@wqzhao.org})\\
+  }}
+
+\begin{document}
+  \maketitle
+
+  \begin{abstract}
+    SPICE simulation of CMOS Circuits using open-source NGSPICE.
+  \end{abstract}
+
+  \tableofcontents
+
+  % \listoffigures
+  % \listoftables
+
+  \section{Environments}
+  \section{Sources}
+
+    \subsection{FreePDK45}
+
+    \subsection{Inverter}
+
+      The schematic diagram of the CMOS inverter is shown in Figure~\ref{fig:inv}.
+
+      \begin{figure}[htbp]
+        \centering
+        \input{../fig/inv.tex}
+        \caption{CMOS inverter schematic.}
+        \label{fig:inv}
+      \end{figure}
+
+      \begin{figure}[htbp]
+        \sffamily
+        \adjustbox{max width=\linewidth}{\includesvg[width=1.25\linewidth]{../fig/plot_inv_t.svg}}
+        \caption{Response of the inverter.}
+      \end{figure}
+
+    \subsection{NAND2}
+
+      \begin{figure}[htbp]
+        \sffamily
+        \adjustbox{max width=\linewidth}{\includesvg[width=1.25\linewidth]{../fig/plot_nand2_t.svg}}
+        \caption{Response of the NAND2 gate.}
+      \end{figure}
+
+    \subsection{AND2}
+
+      \begin{figure}[htbp]
+        \sffamily
+        \adjustbox{max width=\linewidth}{\includesvg[width=1.25\linewidth]{../fig/plot_and2_t.svg}}
+        \caption{Response of the AND2 gate.}
+      \end{figure}
+
+  \appendix
+
+  \section{Links}
+    \begin{itemize}
+      \item GitHub: \href{https://github.com/Teddy-van-Jerry/ngspice-cmos}{Teddy-van-Jerry/ngspice-cmos}
+      \item Website: \href{https://spice.tvj.one}{spice.tvj.one}
+    \end{itemize}
+
+  \section{Source Code}
+
+    \subsection{Inverter}
+      \lstinputlisting{../inv.inc}
+      \lstinputlisting{../inv.cir}
+
+    \subsection{NAND2}
+      \lstinputlisting{../nand2.inc}
+      \lstinputlisting{../nand2.cir}
+
+    \subsection{AND2}
+      \lstinputlisting{../and2.inc}
+      \lstinputlisting{../and2.cir}
+
+\end{document}
