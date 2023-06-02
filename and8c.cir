@@ -125,7 +125,7 @@ Vii8 ii8 gnd PWL
   + title 'CMOS AND8c'
   + xlabel 't'
   + ylabel 'Voltage'
-  + ylimit 0 1.5
+  + ylimit -0.2 1.2
   + ydelta 0.5
 
   * for MS Windows, using Edge
