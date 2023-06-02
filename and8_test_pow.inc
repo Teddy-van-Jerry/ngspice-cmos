@@ -1,6 +1,6 @@
 * =============================================================================
 * Script     : Measure AND8 Gate Static and Dynamic Power
-* Description: Measure the power for devie xand8.
+* Description: Measure the power for device 'xand8'.
 *
 * Author     : Wuqiong Zhao (me@wqzhao.org)
 * Date       : 2023-06-02

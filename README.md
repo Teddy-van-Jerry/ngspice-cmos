@@ -23,6 +23,7 @@
   - [NAND8](#nand8)
   - [AND8](#and8)
     - [AND8a (Symmetrical Design)](#and8a-symmetrical-design)
+    - [AND8b (NAND4A \* 2 + NOR2 \* 1)](#and8b-nand4a--2--nor2--1)
 - [License](#license)
 
 ## Summary
@@ -143,8 +144,23 @@ ngspice nand2.cir
 
 #### AND8a (Symmetrical Design)
 
+- Latency = 90.5ps
+- P_static = 0.738uW
+- P_dynamic = 2.91uW
+
 **Response**
-![CMOS AND8 Response](fig/plot_and8a_t.svg)
+
+![CMOS AND8a Response](fig/plot_and8a_t.svg)
+
+#### AND8b (NAND4A * 2 + NOR2 * 1)
+
+- Latency = 63.6ps
+- P_static = 0.094uW
+- P_dynamic = 3.86uW
+
+**Response**
+
+![CMOS AND8a Response](fig/plot_and8b_t.svg)
 
 ## License
 Copyright (C) 2023 Wuqiong Zhao (me@wqzhao.org)
