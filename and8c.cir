@@ -1,13 +1,13 @@
 * =============================================================================
-* Circuit    : CMOS AND8 Gate Type B
-* Description: NAND4A * 2 + NOR2 * 1
+* Circuit    : CMOS AND8 Gate Type C
+* Description: AND4B * 2 + AND2 * 1
 *
 * Author     : Wuqiong Zhao (me@wqzhao.org)
 * Date       : 2023-06-02
 * License    : MIT
 * =============================================================================
 
-.title CMOS AND8B
+.title CMOS AND8C
 
 * Parameters and Model
 * -----------------------------------------------------------------------------
@@ -21,8 +21,8 @@ Vdd vdd gnd VDD
 
 * AND8B
 * -----------------------------------------------------------------------------
-XAND8 gnd in1 in2 in3 in4 in5 in6 in7 in8 out vdd AND8B
-.inc ./and8b.inc
+XAND8 gnd in1 in2 in3 in4 in5 in6 in7 in8 out vdd AND8C
+.inc ./and8c.inc
 
 * Test Circuit
 * -----------------------------------------------------------------------------
@@ -120,9 +120,9 @@ Vii8 ii8 gnd PWL
   set color3       = blue
   set color4       = green
 
-  hardcopy fig/plot_and8b_t.svg
+  hardcopy fig/plot_and8c_t.svg
   + in1 out in8
-  + title 'CMOS AND8b'
+  + title 'CMOS AND8c'
   + xlabel 't'
   + ylabel 'Voltage'
   + ylimit 0 1.5
@@ -130,14 +130,14 @@ Vii8 ii8 gnd PWL
 
   * for MS Windows, using Edge
   if $oscompiled = 1 | $oscompiled = 8
-    shell Start fig/plot_and8b_t.svg
+    shell Start fig/plot_and8c_t.svg
   else
     if $oscompiled = 7
       * macOS (using Safari, no need to install X11)
-      shell open -a safari fig/plot_and8b_t.svg &
+      shell open -a safari fig/plot_and8c_t.svg &
     else
       * for CYGWIN, Linux, using feh and X11
-      shell feh --magick-timeout 1 fig/plot_and8b_t.svg &
+      shell feh --magick-timeout 1 fig/plot_and8c_t.svg &
     end
   end
   * <<<<< plot <<<<<
