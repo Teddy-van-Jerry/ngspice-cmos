@@ -149,9 +149,14 @@ ngspice nand2.cir
 
 #### AND8a (Symmetrical Design)
 
-- Latency = 90.5ps
-- P_static = 0.662uW
-- P_dynamic = 2.99uW
+|  PVT Condition  | tr (ps) | tf (ps) | tpdr (ps) | tpdf (ps) | P static (uW) | P dynamic (uW) |
+|:---------------:|:-------:|:-------:|:---------:|:---------:|:-------------:|:--------------:|
+|  0.9V, SS, 70°C |  132.6  |  136.9  |   137.3   |   159.9   |     0.076     |      2.366     |
+| 1.35V, SS, 70°C |  110.6  |  124.4  |   102.4   |   125.9   |     1.023     |      5.591     |
+| 1.0V, NOM, 25°C |   90.5  |   99.2  |    83.8   |   110.5   |     0.227     |      2.733     |
+| 1.5V, NOM, 25°C |   79.8  |    95   |    69.4   |    92.4   |     6.566     |      9.669     |
+|  1.1 V, FF, 0°C |   72.5  |   84.6  |    62.7   |    89.4   |     0.955     |      5.321     |
+|  1.65V, FF, 0°C |   69.1  |   83.6  |    54.2   |    75.3   |     51.582    |      1.121     |
 
 **Response**
 
@@ -159,9 +164,14 @@ ngspice nand2.cir
 
 #### AND8b (NAND4A * 2 + NOR2 * 1)
 
-- Latency = 63.6ps
-- P_static = 0.358uW
-- P_dynamic = 3.59uW
+|  PVT Condition  | tr (ps) | tf (ps) | tpdr (ps) | tpdf (ps) | P static (uW) | P dynamic (uW) |
+|:---------------:|:-------:|:-------:|:---------:|:---------:|:-------------:|:--------------:|
+|  0.9V, SS, 70°C |  118.8  |  131.7  |   102.8   |   106.2   |     0.030     |      2.233     |
+| 1.35V, SS, 70°C |   96.2  |  113.1  |    78.3   |    83.3   |     0.641     |      6.204     |
+| 1.0V, NOM, 25°C |   77.2  |   94.9  |    62.7   |    73.0   |     0.125     |      2.592     |
+| 1.5V, NOM, 25°C |   65.7  |   85.5  |    52.0   |    61.0   |     4.895     |     12.301     |
+|  1.1 V, FF, 0°C |   59.4  |   79.9  |    46.2   |    58.8   |     0.510     |      5.289     |
+|  1.65V, FF, 0°C |   53.3  |   74.3  |    30.5   |    50.3   |     43.767    |     11.248     |
 
 **Response**
 
@@ -169,9 +179,14 @@ ngspice nand2.cir
 
 #### AND8c (AND4B * 2 + AND2 * 1)
 
-- Latency = 66.1ps
-- P_static = 0.856uW
-- P_dynamic = 5.69uW
+|  PVT Condition  | tr (ps) | tf (ps) | tpdr (ps) | tpdf (ps) | P static (uW) | P dynamic (uW) |
+|:---------------:|:-------:|:-------:|:---------:|:---------:|:-------------:|:--------------:|
+|  0.9V, SS, 70°C |  118.8  |  120.3  |   103.3   |   105.0   |     0.111     |      3.067     |
+| 1.35V, SS, 70°C |   96.7  |  102.6  |    79.8   |    83.5   |     1.253     |      9.458     |
+| 1.0V, NOM, 25°C |   81.5  |   86.9  |    68.4   |    73.3   |     0.301     |      4.164     |
+| 1.5V, NOM, 25°C |   69.1  |   77.8  |    56.6   |    62.4   |     8.471     |     16.348     |
+|  1.1 V, FF, 0°C |   65.0  |   73.0  |    53.6   |    60.0   |     1.175     |      6.652     |
+|  1.65V, FF, 0°C |   47.9  |   67.8  |    46.9   |    52.2   |     73.357    |     20.798     |
 
 **Response**
 
@@ -203,6 +218,7 @@ You need to specify the parameter `WL`, for example `.param WL = 5`.
 
 #### MOS W/L Design
 
+We need to determine the appropriate W/L for `M5` to `M8`.
 Using a sweep, implemented by `alterparam` within a `foreach` loop,
 we can obtain the following graph.
 
@@ -213,7 +229,7 @@ Clearly, we need W/L > 4.5 (at least 4.2) for the latch to work properly.
 #### Simulation
 
 ```sh
-ngspice ./SR_latch_clk.cir
+ngspice SR_latch_clk.cir
 ```
 
 **Response**
