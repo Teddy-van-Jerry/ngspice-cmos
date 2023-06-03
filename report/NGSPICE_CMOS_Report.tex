@@ -85,7 +85,8 @@
   backgroundcolor=\color{gray!5},
   basicstyle={\ttfamily\scriptsize},
   numberstyle=\tiny\sffamily\color{gray},
-  keywordstyle=\color{blue},
+  keywordstyle=[1]\color{blue},
+  keywordstyle=[2]\color{brown!80!black},
   commentstyle=\color{dkgreen},
   stringstyle=\color{mauve},
   breaklines=true,
@@ -94,14 +95,16 @@
   extendedchars=false,
   postbreak=\mbox{\hspace{-5.4mm}\textcolor{purple}{$\hookrightarrow$}\space},
   caption={\ttfamily\protect\filename@parse{\lstname}\protect\filename@base\text{.}\protect\filename@ext},
-  % comment=[s]{*},
+  upquote=true,
   sensitive = false,
   alsoletter = {.},
   comment = *[l][\processlcom@spice]{*},
   string = [b]{'},
-  morekeywords = {.title, .param, .temp, .inc, .ic, .tran, .control, .endc, .end, .ends, .measure, .subckt},
+  keywords=[1]{.title, .param, .temp, .inc, .ic, .tran, .control, .endc, .end, .ends, .measure, .subckt},
+  keywords=[2]{run, set, hardcopy, if, else, end, shell, print},
 }
 
+\newcommand{\includeres}[1]{\sffamily\scriptsize\includesvg[width=\linewidth]{../fig/plot_#1_t.svg}}
 
 \title{NGSPICE Simulation of CMOS Circuits}
 \author{Wuqiong Zhao%
@@ -140,26 +143,27 @@
       \end{figure}
 
       \begin{figure}[htbp]
-        \sffamily
-        \adjustbox{max width=\linewidth}{\includesvg[width=1.25\linewidth]{../fig/plot_inv_t.svg}}
+        \includeres{inv}
         \caption{Response of the inverter.}
       \end{figure}
 
     \subsection{NAND2}
 
       \begin{figure}[htbp]
-        \sffamily
-        \adjustbox{max width=\linewidth}{\includesvg[width=1.25\linewidth]{../fig/plot_nand2_t.svg}}
+        \includeres{nand2}
         \caption{Response of the NAND2 gate.}
       \end{figure}
 
     \subsection{AND2}
 
       \begin{figure}[htbp]
-        \sffamily
-        \adjustbox{max width=\linewidth}{\includesvg[width=1.25\linewidth]{../fig/plot_and2_t.svg}}
+        \includeres{and2}
         \caption{Response of the AND2 gate.}
       \end{figure}
+
+    \subsection{AND8}
+
+      \subsubsection{Symmetrical Design}
 
   \appendix
 

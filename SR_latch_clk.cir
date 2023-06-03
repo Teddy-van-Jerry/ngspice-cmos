@@ -1,0 +1,137 @@
+* =============================================================================
+* Circuit    : Clock Controlled SR Latch
+* Description: 2 PMOS + 6 NMOS
+*
+* Author     : Wuqiong Zhao (me@wqzhao.org)
+* Date       : 2023-06-03
+* License    : MIT
+* =============================================================================
+
+.title CMOS Clock Controlled SR Latch
+
+* Parameters and Model
+* -----------------------------------------------------------------------------
+.param VDD='1.0V'
+.temp  27
+.inc ./FreePDK45/ff.inc
+
+* Supply Voltage Source
+* -----------------------------------------------------------------------------
+Vdd vdd gnd VDD
+
+* Clock Controlled SR Latch
+* -----------------------------------------------------------------------------
+.inc ./SR_latch_clk.inc
+XLatch gnd s r clk q qn vdd SR_LATCH_CLK
+
+* Input Signals
+* -----------------------------------------------------------------------------
+Vs s gnd PWL
++ (
++   0.0ns  0V
++   0.9ns  0V
++   1.1ns VDD
++   1.9ns VDD
++   2.1ns  0V
++   3.0ns  0V
++ )
+
+Vr r gnd PWL
++ (
++   0.0ns  0V
++   2.4ns  0V
++   2.5ns VDD
++   3.5ns VDD
++ )
+
+Vclk clk gnd PWL
++ (
++   0.0ns VDD
++   3.0ns VDD
++ )
+
+* Analysis
+* -----------------------------------------------------------------------------
+.ic    V(qn)=VDD
+.ic    V(q) =0V
+.tran  0.005ns 3ns
+
+.param WL = 10
+.probe V(qn)
+
+.control
+  set xgridwidth  = 2
+  set xbrushwidth = 3
+  * "svgwidth", "svgheight",  "svgfont-size", "svgfont-width", "svguse-color", "svgstroke-width", "svggrid-width",
+  set svg_intopts = ( 1024 256 16 0 1 2 0 )
+  * "svgbackground", "svgfont-family", "svgfont"
+  setcs svg_stropts = ( white Arial Arial )
+  set hcopydevtype = svg
+  set color1       = black
+
+  * Sweep Parameters
+  foreach x 2 4 4.2 4.5 5 6 8
+    alterparam WL = $x
+    reset
+    run
+  end
+
+  let WL2   = tran1.V(qn)
+  let WL4   = tran2.V(qn)
+  let WL4.2 = tran3.V(qn)
+  let WL4.5 = tran4.V(qn)
+  let WL5   = tran5.V(qn)
+  let WL6   = tran6.V(qn)
+  let WL8   = tran7.V(qn)
+
+  hardcopy fig/plot_sr_latch_wl_t.svg
+  + s r WL2 WL4 WL4.2 WL4.5 WL5 WL6 WL8
+  + title 'CMOS Clock Controlled SR Latch With Different W/L'
+  + xlabel 't'
+  + ylabel 'Voltage'
+  + ylimit 0 1
+
+  * for MS Windows, using Edge
+  if $oscompiled = 1 | $oscompiled = 8
+    shell Start fig/plot_sr_latch_wl_t.svg
+  else
+    if $oscompiled = 7
+      * macOS (using Safari, no need to install X11)
+      shell open -a safari fig/plot_sr_latch_wl_t.svg &
+    else
+      * for CYGWIN, Linux, using feh and X11
+      shell feh --magick-timeout 1 fig/plot_sr_latch_wl_t.svg &
+    end
+  end
+
+  One example that This SR Latch will work.
+  alterparam WL = 6
+  reset
+  run
+  set color2       = red
+  set color3       = blue
+  set color4       = green
+  set color5       = brown
+
+  hardcopy fig/plot_sr_latch_t.svg
+  + qn q s r
+  + title 'CMOS Clock Controlled SR Latch'
+  + xlabel 't'
+  + ylabel 'Voltage'
+  + ylimit 0 1
+
+  * for MS Windows, using Edge
+  if $oscompiled = 1 | $oscompiled = 8
+    shell Start fig/plot_sr_latch_t.svg
+  else
+    if $oscompiled = 7
+      * macOS (using Safari, no need to install X11)
+      shell open -a safari fig/plot_sr_latch_t.svg &
+    else
+      * for CYGWIN, Linux, using feh and X11
+      shell feh --magick-timeout 1 fig/plot_sr_latch_t.svg &
+    end
+  end
+.endc
+
+.end

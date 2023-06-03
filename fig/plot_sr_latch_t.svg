@@ -1,0 +1,89 @@
+<?xml version="1.0" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+  width="100%" height="100%" viewBox="0 0 1024 256"
+  style="fill: none; stroke-width: 3; font-family: Arial;
+ font: Arial;
+">
+
+<!-- Creator: NGspice -->
+
+<rect x="0" y="0" width="1024" height="256" fill="white" stroke="none"/>
+<text stroke="none" fill="black" font-size="16" x="358" y="240">
+t
+</text>
+<text transform="rotate(-90, 20, 163)"  stroke="none" fill="black" font-size="16" x="20" y="163">
+voltage
+</text>
+<text stroke="none" fill="black" font-size="16" x="10" y="16">
+tran8: cmos clock controlled sr latch
+</text>
+<path stroke="black" stroke-width="2" d="M75 192l0 -128"/>
+<text stroke="none" fill="black" font-size="16" x="60" y="216">
+0.0
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M224 192l0 -128"/>
+<text stroke="none" fill="black" font-size="16" x="209" y="216">
+0.5
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M373 192l0 -128"/>
+<text stroke="none" fill="black" font-size="16" x="358" y="216">
+1.0
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M522 192l0 -128"/>
+<text stroke="none" fill="black" font-size="16" x="507" y="216">
+1.5
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M671 192l0 -128"/>
+<text stroke="none" fill="black" font-size="16" x="656" y="216">
+2.0
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M820 192l0 -128"/>
+<text stroke="none" fill="black" font-size="16" x="805" y="216">
+2.5
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M969 192l0 -128"/>
+<text stroke="none" fill="black" font-size="16" x="954" y="216">
+3.0
+</text>
+<text stroke="none" fill="black" font-size="16" x="614" y="240">
+ns
+</text>
+<path stroke="black" stroke-width="2" d="M75 192l894 0"/>
+<text stroke="none" fill="black" font-size="16" x="43" y="200">
+0.0
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M75 128l894 0"/>
+<text stroke="none" fill="black" font-size="16" x="43" y="136">
+0.5
+</text>
+<path stroke="black" stroke-width="2" stroke-dasharray="1,2" d="M75 64l894 0"/>
+<text stroke="none" fill="black" font-size="16" x="43" y="72">
+1.0
+</text>
+<text stroke="none" fill="black" font-size="16" x="10" y="32">
+V
+</text>
+<path stroke="red" d="M447 23l44 0"/>
+<text stroke="none" fill="black" font-size="16" x="501" y="32">
+qn
+</text>
+<path stroke="red" d="M75 64l278 0 1 1 2 0 1 1 2 1 1 1 2 1 1 2 2 1 1 2 2 2 1 2 2 2 1 2 2 2 1 3 2 3 1 3 2 3 1 4 2 4 1 7 2 12 1 25 2 31 1 13 413 0 1 -1 2 -1 1 -2 2 -2 1 -4 2 -7 1 -11 2 -29 1 -49 1 -22M818 64l1 1 1 -1 149 0"/>
+<path stroke="blue" d="M75 23l44 0"/>
+<text stroke="none" fill="black" font-size="16" x="129" y="32">
+q
+</text>
+<path stroke="blue" d="M75 192l290 0 1 -1 3 0 2 -1 1 0 2 -1 1 -1 2 -1 1 -2 2 -2 3 -6 1 -6 2 -11 1 -28 2 -48 0 -20M391 64l1 1 1 -1 402 0 2 1 1 1 2 3 1 3 2 4 1 4 2 4 1 5 2 6 1 6 2 8 1 13 2 25 1 31 2 14 151 0"/>
+<path stroke="green" d="M447 39l44 0"/>
+<text stroke="none" fill="black" font-size="16" x="501" y="48">
+s
+</text>
+<path stroke="green" d="M75 192l268 0 1 -1 0 -1 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3 2 -4 1 -3 2 -3 1 -3 2 -3 1 -4 2 -3 1 -3 2 -3 1 -3"/>
+<path stroke="green" d="M402 66l1 -2 238 0 1 1M642 66l0 -1M642 66l1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 2 4 1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 2 4 1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 2 4 1 3 2 3 1 3 2 3 1 4 2 3 1 3 2 3 1 3 1 2 268 0"/>
+<path stroke="brown" d="M75 39l44 0"/>
+<text stroke="none" fill="black" font-size="16" x="129" y="48">
+r
+</text>
+<path stroke="brown" d="M75 192l715 0 0 -1 1 -1 0 -2 1 -6 2 -6 1 -6 2 -7 1 -6 2 -7 1 -6 2 -6 1 -7 2 -6 1 -7 2 -6 1 -6 2 -7 1 -6 2 -7 1 -6 2 -6 1 -7 1 -3 149 0"/>
+</svg>

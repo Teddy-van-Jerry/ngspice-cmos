@@ -25,6 +25,10 @@
     - [AND8a (Symmetrical Design)](#and8a-symmetrical-design)
     - [AND8b (NAND4A \* 2 + NOR2 \* 1)](#and8b-nand4a--2--nor2--1)
     - [AND8c (AND4B \* 2 + AND2 \* 1)](#and8c-and4b--2--and2--1)
+  - [Clock Controlled SR Latch](#clock-controlled-sr-latch)
+    - [Schematic Design](#schematic-design)
+    - [MOS W/L Design](#mos-wl-design)
+    - [Simulation](#simulation-2)
 - [License](#license)
 
 ## Summary
@@ -172,6 +176,49 @@ ngspice nand2.cir
 **Response**
 
 ![CMOS AND8c Response](fig/plot_and8c_t.svg)
+
+
+### Clock Controlled SR Latch
+
+#### Schematic Design
+
+2 PMOS + 6 NMOS
+
+**Source** [`SR_latch_clk.inc`](SR_latch_clk.inc)
+```
+* .param WL = 5
+.subckt SR_LATCH_CLK gnd s r clk q qn vdd
+  *  src  gate drain body type
+  M1 qn   q    gnd   gnd  NMOS_VTL W=     90nm L=45nm
+  M2 qn   q    vdd   vdd  PMOS_VTL W=    270nm L=45nm
+  M3 q    qn   gnd   gnd  NMOS_VTL W=     90nm L=45nm
+  M4 q    qn   vdd   vdd  PMOS_VTL W=    270nm L=45nm
+  M5 ts   s    gnd   gnd  NMOS_VTL W={WL*45nm} L=45nm
+  M6 qn   clk  ts    gnd  NMOS_VTL W={WL*45nm} L=45nm
+  M7 tr   r    gnd   gnd  NMOS_VTL W={WL*45nm} L=45nm
+  M8 q    clk  tr    gnd  NMOS_VTL W={WL*45nm} L=45nm
+.ends SR_LATCH_CLK
+```
+You need to specify the parameter `WL`, for example `.param WL = 5`.
+
+#### MOS W/L Design
+
+Using a sweep, implemented by `alterparam` within a `foreach` loop,
+we can obtain the following graph.
+
+![Clock Controlled SR Latch with Different W/L](fig/plot_sr_latch_wl_t.svg)
+
+Clearly, we need W/L > 4.5 (at least 4.2) for the latch to work properly.
+
+#### Simulation
+
+```sh
+ngspice ./SR_latch_clk.cir
+```
+
+**Response**
+
+![Clock Controlled SR Latch](fig/plot_sr_latch_t.svg)
 
 ## License
 Copyright (C) 2023 Wuqiong Zhao (me@wqzhao.org)
