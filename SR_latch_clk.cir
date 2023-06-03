@@ -40,7 +40,7 @@ Vr r gnd PWL
 + (
 +   0.0ns  0V
 +   2.4ns  0V
-+   2.5ns VDD
++   2.6ns VDD
 +   3.5ns VDD
 + )
 
