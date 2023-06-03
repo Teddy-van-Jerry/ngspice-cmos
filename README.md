@@ -25,9 +25,9 @@
     - [Simulation](#simulation-2)
   - [AND8](#and8)
     - [Basic Components](#basic-components)
-    - [AND8a (Symmetrical Design)](#and8a-symmetrical-design)
-    - [AND8b (NAND4A \* 2 + NOR2 \* 1)](#and8b-nand4a--2--nor2--1)
-    - [AND8c (AND4B \* 2 + AND2 \* 1)](#and8c-and4b--2--and2--1)
+    - [AND8A (Symmetrical Design)](#and8a-symmetrical-design)
+    - [AND8B (NAND4A \* 2 + NOR2 \* 1)](#and8b-nand4a--2--nor2--1)
+    - [AND8C (AND4B \* 2 + AND2 \* 1)](#and8c-and4b--2--and2--1)
     - [Analysis](#analysis)
   - [Clock Controlled SR Latch](#clock-controlled-sr-latch)
     - [Schematic Design](#schematic-design)
@@ -70,9 +70,9 @@ Delay:
 - **tpd**: average propagation delay (tpd = (tpdr + tpdf)/2)
 
 Operating corner:
-- **ss**: slow-slow
-- **nom**: nominal (average)
-- **ff**: fast-fast
+- **SS**: slow-slow
+- **NOM**: nominal (average)
+- **FF**: fast-fast
 
 ## Sources
 ### `FreePDK45/`
@@ -129,6 +129,10 @@ ngspice inv.cir
 #### Design
 The CMOS NAND2 gate is symmetrically designed with parameters for the worst case.
 
+**Schematic**
+
+![CMOS NAND2 Gate Schematic](fig/nand2_schematic.svg)
+
 **Designed MOS Parameters**
 
 |  MOS  | Num |   W   |   L   |
@@ -156,6 +160,7 @@ ngspice nand2.cir
 ```
 
 **Response**
+
 ![CMOS NAND2 Response](fig/plot_nand2_t.svg)
 
 ### AND2
@@ -168,11 +173,16 @@ ngspice and2.cir
 ```
 
 **Response**
+
 ![CMOS AND2 Response](fig/plot_and2_t.svg)
 
 ### NOR2
 
 #### Design
+
+**Schematic**
+
+![CMOS NOR2 Gate Schematic](fig/nor2_schematic.svg)
 
 **Source** [`nor2.inc`](nor2.inc)
 ```spice
@@ -193,6 +203,7 @@ ngspice nor2.cir
 ```
 
 **Response**
+
 ![CMOS NOR2 Response](fig/plot_nor2_t.svg)
 
 ### AND8
@@ -215,13 +226,21 @@ The response simulation has the PVT condition of 1.0V, FF, 25°C.
 ##### NAND4A <!-- omit in toc -->
 This directly extends the structure of NAND2 into NAND4.
 
+![CMOS NAND4A Gate Schematic](fig/nand4_schematic.svg)
+
 ##### NAND8A <!-- omit in toc -->
 This directly extends the structure of NAND2 into NAND8.
+
+![CMOS NAND8A Gate Schematic](fig/nand8_schematic.svg)
 
 #### AND8A (Symmetrical Design)
 
 This is the most basic case, extending 2-input NAND to 8-input NAND,
 before applying an inverter.
+
+**Schematic**
+
+![CMOS AND8A Gate Schematic](fig/and8a_schematic.svg)
 
 |  PVT Condition  | tr (ps) | tf (ps) | tpdr (ps) | tpdf (ps) | P static (uW) | P dynamic (uW) |
 |:---------------:|:-------:|:-------:|:---------:|:---------:|:-------------:|:--------------:|
@@ -238,6 +257,10 @@ before applying an inverter.
 
 #### AND8B (NAND4A * 2 + NOR2 * 1)
 
+**Schematic**
+
+![CMOS AND8B Gate Schematic](fig/and8b_schematic.svg)
+
 |  PVT Condition  | tr (ps) | tf (ps) | tpdr (ps) | tpdf (ps) | P static (uW) | P dynamic (uW) |
 |:---------------:|:-------:|:-------:|:---------:|:---------:|:-------------:|:--------------:|
 |  0.9V, SS, 70°C |  118.8  |  131.7  |   102.8   |   106.2   |     0.030     |      2.233     |
@@ -252,6 +275,10 @@ before applying an inverter.
 ![CMOS AND8B Response](fig/plot_and8b_t.svg)
 
 #### AND8C (AND4B * 2 + AND2 * 1)
+
+**Schematic**
+
+![CMOS AND8C Gate Schematic](fig/and8c_schematic.svg)
 
 |  PVT Condition  | tr (ps) | tf (ps) | tpdr (ps) | tpdf (ps) | P static (uW) | P dynamic (uW) |
 |:---------------:|:-------:|:-------:|:---------:|:---------:|:-------------:|:--------------:|
@@ -286,6 +313,8 @@ There are also some other observations:
 #### Schematic Design
 
 2 PMOS + 6 NMOS
+
+![Clock Controlled SR Latch Schematic](fig/SR_latch_clk_schematic.svg)
 
 **Source** [`SR_latch_clk.inc`](SR_latch_clk.inc)
 ```spice
