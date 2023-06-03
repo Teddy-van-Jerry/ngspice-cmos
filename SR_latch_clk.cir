@@ -104,7 +104,7 @@ Vclk clk gnd PWL
     end
   end
 
-  One example that This SR Latch will work.
+  * One example that This SR Latch will work.
   alterparam WL = 6
   reset
   run

@@ -1,2 +1,2 @@
-# Compatibility with HSPICE
+* Compatibility with HSPICE
 set ngbehavior=hs

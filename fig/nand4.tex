@@ -1,0 +1,42 @@
+\begin{circuitikz}[
+  , null n/.style = {
+    , inner sep = 0
+    , outer sep = 0
+    , minimum size = 0
+  }
+  , la/.style = {
+    , font = \sffamily
+  }
+  , P/.style = {
+    , pmos
+    , font = \footnotesize
+  }
+  , N/.style = {
+    , nmos
+    , font = \footnotesize
+  }
+]
+  \draw
+    (-3, 1) node (Mp1) [P] {\hspace{-1em}8}
+    (-1, 1) node (Mp2) [P] {\hspace{-1em}8}
+    (1, 1) node (Mp3) [P] {\hspace{-1em}8}
+    (3, 1) node (Mp4) [P] {\hspace{-1em}8}
+    ([xshift = -7pt]Mp1.S) -- ([xshift=7pt]Mp4.S) node [midway, above] {$V_{DD}$}
+    (Mp1.D) -- (Mp4.D)
+    (0, -1) node (Mn1) [N] {\hspace{-1em}20}
+    (0, -2.5) node (Mn2) [N] {\hspace{-1em}20}
+    (0, -4) node (Mn3) [N] {\hspace{-1em}20}
+    (0, -5.5) node (Mn4) [N] {\hspace{-1em}20}
+    (Mn1.D) to[short, -*] (Mp1.D -| Mn1.D)
+    (Mn1.D) to[short, *-o] ++ (0.5, 0) node [right, la, mark=*] {out}
+    (Mn4.S) ++ (0, 0) node [tlground] {}
+    (Mp1.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in1}
+    (Mp2.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in2}
+    (Mp3.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in3}
+    (Mp4.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in4}
+    (Mn1.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in1}
+    (Mn2.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in2}
+    (Mn3.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in3}
+    (Mn4.G) to[short, -o] ++ (-0, 0) node [left, la, mark=*] {in4}
+  ;
+\end{circuitikz}%

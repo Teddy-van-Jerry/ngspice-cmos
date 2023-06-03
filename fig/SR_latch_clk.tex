@@ -1,0 +1,43 @@
+\begin{circuitikz}[
+  , null n/.style = {
+    , inner sep = 0
+    , outer sep = 0
+    , minimum size = 0
+  }
+  , la/.style = {
+    , font = \sffamily
+  }
+  , P/.style = {
+    , pmos
+  }
+  , N/.style = {
+    , nmos
+  }
+]
+  \draw
+    (-1.2, -1) node (M1) [N, xscale=-1, label={[xshift=.5em]center:\footnotesize$M_1$}] {}
+    (1.2, -1) node (M3) [N, label={[xshift=-.5em]center:\footnotesize$M_3$}] {}
+    (-1.2, 1) node (M2) [P, xscale=-1, label={[xshift=.5em]center:\footnotesize$M_2$}] {}
+    (1.2, 1) node (M4) [P, label={[xshift=-.5em]center:\footnotesize$M_4$}] {}
+    (M1.G) -- (M2.G)
+    (M3.G) -- (M4.G)
+    (M1.D) -- (M2.D)
+    (M3.D) -- (M4.D)
+    (M1.D) to[short, *-*] (M1.D -| M3.G)
+    (M4.D) to[short, *-*] (M4.D -| M2.G)
+    (-1.7, -0.9) node (M6) [N, label={[xshift=-.2em]center:\footnotesize$M_6$}, scale=.7] {}
+    (1.7, -0.9) node (M8) [N, label={[xshift=.2em]center:\footnotesize$M_8$}, scale=-.7] {}
+    (-1.7, -1.8) node (M5) [N, label={[xshift=-.2em]center:\footnotesize$M_5$}, scale=.7] {}
+    (1.7, -1.8) node (M7) [N, label={[xshift=.2em]center:\footnotesize$M_7$}, scale=-.7] {}
+    ([xshift=-5mm]M5.S) -- ([xshift=5mm]M7.D) node [midway, ground] {}
+    ([xshift=-5mm]M2.S) -- ([xshift=5mm]M4.S) node [midway, above] {$V_{DD}$}
+    (M1.S) -- (M1.S |- M7.D)
+    (M3.S) -- (M3.S |- M5.S)
+    (M6.D) |- (M1.D) node [above left] {$\overline{Q}$}
+    (M8.S) |- (M4.D) node [above right] {$Q$}
+    (M6.G) to[short, -o] ++ (-0, 0) node [la, left] {clk}
+    (M8.G) to[short, -o] ++ (0, 0) node [la, right] {clk}
+    (M5.G) to[short, -o] ++ (-0, 0) node [la, left] {$S$}
+    (M7.G) to[short, -o] ++ (0, 0) node [la, right] {$R$}
+  ;
+\end{circuitikz}%

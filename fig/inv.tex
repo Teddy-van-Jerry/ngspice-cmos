@@ -9,8 +9,8 @@
   }
 ]
   \draw
-    (0, 1) node (M1) [pmos] {M1}
-    (0, -1) node (M2) [nmos] {M2}
+    (0, 1) node (M1) [pmos] {$M_1$}
+    (0, -1) node (M2) [nmos] {$M_2$}
     (M1.G) to[short, -*] ++ (0, -1) node [null n] (in-branch) {}
     (in-branch) to[short, -o] ++ (-1, 0) node [left, la, mark=*] {in}
     (in-branch) to[short] ++ (0, -1) (M2.G)

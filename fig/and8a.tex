@@ -1,0 +1,24 @@
+\begin{circuitikz}[
+  , null n/.style = {
+    , inner sep = 0
+    , outer sep = 0
+    , minimum size = 0
+  }
+  , la/.style = {
+    , font = \sffamily
+  }
+  , P/.style = {
+    , pmos
+    , font = \footnotesize
+  }
+  , N/.style = {
+    , nmos
+    , font = \footnotesize
+  }
+]
+  \draw
+    (0, 0) node[nand port, number inputs=8] (nand) {}
+    (2, 0) node[not port] (inv) {}
+    (nand.out) -- (inv.in)
+  ;
+\end{circuitikz}%

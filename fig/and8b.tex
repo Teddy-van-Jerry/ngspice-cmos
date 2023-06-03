@@ -1,0 +1,26 @@
+\begin{circuitikz}[
+  , null n/.style = {
+    , inner sep = 0
+    , outer sep = 0
+    , minimum size = 0
+  }
+  , la/.style = {
+    , font = \sffamily
+  }
+  , P/.style = {
+    , pmos
+    , font = \footnotesize
+  }
+  , N/.style = {
+    , nmos
+    , font = \footnotesize
+  }
+]
+  \draw
+    (0, 1) node[nand port, number inputs=4] (nand1) {}
+    (0, -1) node[nand port, number inputs=4] (nand2) {}
+    (2.5, 0) node[nor port] (nor) {}
+    (nand1.out) -| (nor.in 1)
+    (nand2.out) -| (nor.in 2)
+  ;
+\end{circuitikz}%

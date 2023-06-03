@@ -8,8 +8,10 @@
 \usepackage{siunitx}
 \usepackage{adjustbox}
 \usepackage{tikz}
+\usepackage{booktabs}
 \usepackage{circuitikz}
 \usepackage{listings}
+\usepackage[style=ieee,backend=biber]{biblatex}
 \usepackage[headsepline, autooneside=false, automark]{scrlayer-scrpage}
 \usepackage[colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 \clearpairofpagestyles
@@ -22,7 +24,9 @@
   , bipoles/capacitor/height=.3
   , label/align = straight
   , tripoles/pmos style/emptycircle
+  , logic ports=ieee
 }
+\addbibresource{ref.bib}
 \definecolor{dkgreen}{rgb}{0,0.5,0}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \makeatletter
@@ -100,16 +104,17 @@
   alsoletter = {.},
   comment = *[l][\processlcom@spice]{*},
   string = [b]{'},
-  keywords=[1]{.title, .param, .temp, .inc, .ic, .tran, .control, .endc, .end, .ends, .measure, .subckt},
-  keywords=[2]{run, set, hardcopy, if, else, end, shell, print},
+  keywords=[1]{.title, .param, .temp, .inc, .ic, .tran, .control, .endc, .end, .ends, .measure, .subckt, .probe},
+  keywords=[2]{run, set, hardcopy, if, else, end, shell, print, setcs, let, foreach, alter, alterparam, reset},
 }
 
-\newcommand{\includeres}[1]{\sffamily\scriptsize\includesvg[width=\linewidth]{../fig/plot_#1_t.svg}}
+\newcommand{\includeres}[1]{\sffamily\scriptsize\includesvg[width=\linewidth]{../fig/plot_#1_t.svg}\vspace{-2em}}
 
 \title{NGSPICE Simulation of CMOS Circuits}
 \author{Wuqiong Zhao%
   \thanks{\>
-    This is the course project of \textsc{Fundamentals of VLSI Desig}n, Southeast University, 2023 Spring.\\
+    This is the course project of \textsc{Fundamentals of VLSI Desig}n, Southeast University, 2023 Spring.
+    This document is available online at \url{https://spice.tvj.one/report/NGSPICE_CMOS_Report.pdf}.\\
     The author is with the National Mobile Communications Research Laboratory,
     Southeast University, Nanjing 211189, China. (E-Mail: \href{mailto:me@wqzhao.org}{me@wqzhao.org})\\
   }}
@@ -118,7 +123,12 @@
   \maketitle
 
   \begin{abstract}
-    SPICE simulation of CMOS Circuits using open-source NGSPICE.
+    NGSPICE is a powerful open-source SPICE simulation software in command line,
+    which can efficiently simulate CMOS circuits.
+    Basic logic gates, including \textsc{Not}, \textsc{Nand}, \textsc{And}, \textsc{Nor}, are implemented and analyzed.
+    The delay parameters and response plots can help understand the circuit characteristics.
+    As examples, the 8-input NAND gate with three distinct designs is investigated,
+    and the clock controlled SR latch is also simulated to design appropriate MOS parameters.
   \end{abstract}
 
   \tableofcontents
@@ -127,51 +137,429 @@
   % \listoftables
 
   \section{Environments}
+
+    \subsection{Preparation}
+      Install NGSPICE \cite{ngspice} CLI app.
+      View the user manual \cite{manual} for more information.
+
+    \subsection{Settings}
+      NGSPICE is set to be compatible with HSPICE (see \href{https://github.com/Teddy-van-Jerry/ngspice-cmos/blob/master/.spiceinit}{\texttt{.spiceinit}}).
+
+    \subsection{Development}
+      My development environments:
+      \begin{itemize}
+        \item macOS 13 (Ventura) with M1 chip;
+        \item NGSPICE 40 (Homebrew version).
+      \end{itemize}
+      There is \textit{no} guarantee that the provided code can run on other platforms or other SPICE tools.
+      Make changes if appropriate.
+
+  \section{Definitions}
+    Delay:
+    \begin{itemize}
+      \item $t_r$ (\texttt{tr}): rise time (from output crossing $0.1V_{DD}$ to $0.9V_{DD}$);
+      \item $t_f$ (\texttt{tf}): fall time (from output crossing $0.9V_{DD}$ to $0.1V_{DD}$);
+      \item $t_{pdr}$ (\texttt{tpdf}): rising propagation delay (from input to rising output crossing $V_{DD}/2$);
+      \item $t_{pdf}$ (\texttt{tpdf}): falling propagation delay (from input to falling output crossing $V_{DD}/2$);
+      \item $t_{pd}$ (\texttt{tpd}): average propagation delay ($t_{pd} = (t_{pdr} + t_{pdf})/2$).
+    \end{itemize}
+
+    Operating corner:
+    \begin{itemize}
+      \item \textbf{SS}: slow-slow;
+      \item \textbf{MOM}: nominal (average);
+      \item \textbf{FF}: fast-fast.
+    \end{itemize}
+    
+
   \section{Sources}
 
     \subsection{FreePDK45}
 
-    \subsection{Inverter}
+      This is a \qty{45}{nm} CMOS library.
+      See \href{https://github.com/Teddy-van-Jerry/ngspice-cmos/blob/master/FreePDK45/README}{README} for more information.
+      \texttt{TNOM} of FreePDK45 is 27C.
 
-      The schematic diagram of the CMOS inverter is shown in Figure~\ref{fig:inv}.
+    \subsection{Inverter}\label{s:inv}
 
-      \begin{figure}[htbp]
+      The schematic diagram of the CMOS inverter is shown in Figure~\ref{fig:inv},
+      with 1 PMOS and 1 NMOS.
+      The design requirement is $t_r=t_f$ when $C_L=\qty{24}{fF}$.
+      The designed MOS parameters are shown in Table~\ref{tab:inv}.
+
+      \noindent\begin{minipage}[b]{\linewidth}
         \centering
-        \input{../fig/inv.tex}
-        \caption{CMOS inverter schematic.}
-        \label{fig:inv}
-      \end{figure}
+        \begin{minipage}[b]{.45\linewidth}
+          \centering
+          \input{../fig/inv}
+          \captionof{figure}{CMOS inverter schematic.}
+          \label{fig:inv}
+        \end{minipage}
+        \begin{minipage}[b]{.48\linewidth}
+          \centering
+          \begin{tabular}{ccc}
+            \toprule
+            MOS & $W$ & $L$ \\\midrule
+            PMOS & \qty{360}{nm} & \qty{45}{nm} \\
+            NMOS & \qty{225}{nm} & \qty{45}{nm} \\
+            \bottomrule
+          \end{tabular}
+          \captionof{table}{Designed inverter MOS parameters.}
+          \label{tab:inv}
+        \end{minipage}
+      \end{minipage}
 
+      \begin{lstlisting}[title={Inverter Subcircuit}]
+.subckt INV gnd i o vdd
+  *  src  gate drain body type
+  M1 vdd  i    o     vdd  PMOS_VTL W=360nm L=45nm
+  M2 gnd  i    o     gnd  NMOS_VTL W=225nm L=45nm
+.ends INV
+      \end{lstlisting}
+
+      Simulate with \texttt{ngspice inv.cir}, and
+      the response of the inverter can be obtained as depicted in Figure~\ref{fig:inv_res}.
       \begin{figure}[htbp]
         \includeres{inv}
         \caption{Response of the inverter.}
+        \label{fig:inv_res}
       \end{figure}
+      \newpage
 
-    \subsection{NAND2}
+    \subsection{NAND2}\label{s:nand2}
+      The CMOS NAND2 gate is symmetrically designed with parameters for the worst case.
+      The schematic is shown in Figure~\ref{fig:nand2},
+      where the value of $W/L$ is labeled next to each MOS.
+      The load capacitor is omitted.
+      The designed parameters are shown in Table~\ref{tab:nand2}.
 
+      \begin{minipage}[b]{\linewidth}
+        \centering
+        \begin{minipage}[b]{.45\linewidth}
+          \centering
+          \input{../fig/nand2}
+          \captionof{figure}{CMOS NAND2 schematic.}
+          \label{fig:nand2}
+        \end{minipage}
+        \begin{minipage}[b]{.45\linewidth}
+          \centering
+          \begin{tabular}{cccc}
+            \toprule
+            MOS & Number & $W$ & $L$ \\\midrule
+            PMOS & 2 & \qty{360}{nm} & \qty{45}{nm} \\
+            NMOS & 2 & \qty{225}{nm} & \qty{45}{nm} \\
+            \bottomrule
+          \end{tabular}
+          \captionof{table}{Designed NAND2 MOS parameters.}
+          \label{tab:nand2}
+        \end{minipage}
+      \end{minipage}
+
+      \begin{lstlisting}[title={NAND2 Subcircuit}]
+.subckt NAND2 gnd i1 i2 o vdd
+  *   src  gate drain body type
+  Mp1 vdd  i1   o     vdd  PMOS_VTL W=360nm L=45nm
+  Mp2 vdd  i2   o     vdd  PMOS_VTL W=360nm L=45nm
+  Mn1 t1   i1   o     gnd  NMOS_VTL W=450nm L=45nm
+  Mn2 gnd  i2   t1    gnd  NMOS_VTL W=450nm L=45nm
+.ends NAND2
+      \end{lstlisting}
+
+      The response simulated with \texttt{ngspice nand2.cir} is shown in Figure~\ref{fig:nand2_res}.
       \begin{figure}[htbp]
         \includeres{nand2}
         \caption{Response of the NAND2 gate.}
+        \label{fig:nand2_res}
       \end{figure}
 
+    \vspace*{-.5em}
     \subsection{AND2}
 
-      \begin{figure}[htbp]
+      AND2 is \hyperref[s:nand2]{NAND2} + \hyperref[s:inv]{INV}.
+      The response of AND2 at the worst case is shown in Figure~\ref{fig:and2}.
+      \vspace*{-.5em}
+      \begin{figure}[!h]
         \includeres{and2}
         \caption{Response of the AND2 gate.}
+        \label{fig:and2}
+        \vspace*{-1em}
       \end{figure}
 
-    \subsection{AND8}
+      \newpage
 
-      \subsubsection{Symmetrical Design}
+    \subsection{NOR2}
 
+      The schematic of the NOR2 gate is shown in Figure~\ref{fig:nor2}.
+      \begin{figure}[htbp]
+        \centering
+        \input{../fig/nor2}
+        \caption{CMOS NOR2 schematic.}
+        \label{fig:nor2}
+      \end{figure}
+
+      \begin{lstlisting}[title={NOR2 Subcircuit}]
+.subckt NOR2 gnd i1 i2 o vdd
+  *   src  gate drain body type
+  Mp1 t1   i1   o     vdd  PMOS_VTL W=720nm L=45nm
+  Mp2 vdd  i2   t1    vdd  PMOS_VTL W=720nm L=45nm
+  Mn1 gnd  i1   o     gnd  NMOS_VTL W=225nm L=45nm
+  Mn2 gnd  i2   o     gnd  NMOS_VTL W=225nm L=45nm
+.ends NOR2
+      \end{lstlisting}
+
+      The response of NOR2 gate is given in Figure~\ref{fig:nor2_res}
+      when simulating with \texttt{ngspice nor2.cir}.
+      \begin{figure}[htbp]
+        \includeres{nor2}
+        \caption{Response of the AND2 gate.}
+        \label{fig:nor2_res}
+      \end{figure}
+
+      \newpage
+      \subsection{AND8}
+
+      8-input \textsc{And} gate.
+      With a large fan-in, there can be several distinct designs.
+      Here we want to investigate the performance of different designs.
+
+      The test circuit (defined in \texttt{add8\_test\_inv2.inc})
+      involves a \qty{24}{fF} capacitor load at the output,
+      and 8 sets of two stages of inverters for each input.
+      For the inverter in the test circuit,
+      NMOS has $W=\qty{0.75}{\um}$, $L=\qty{0.25}{\um}$,
+      and PMOS has $W=\qty{2.60}{\um}$, $L=\qty{0.25}{\um}$.
+
+      The response simulation has the PVT condition of \qty{1.0}{V}, FF, 25°C.
+
+      \subsubsection{Basic Components}
+
+        \paragraph{NAND4A}\label{s:nand4a}
+        This design directly extends the structure of NAND2 into NAND4.
+        Its schematic is shown in Figure~\ref{fig:nand4}.
+        \begin{figure}[htbp]
+          \centering
+          \input{../fig/nand4}
+          \caption{CMOS NAND4A schematic.}
+          \label{fig:nand4}
+        \end{figure}
+
+        \newpage
+
+        \paragraph{NAND8A}\label{s:nand8a}
+        This design directly extends the structure of NAND2 into NAND8.
+        Its schematic is shown in Figure~\ref{fig:nand8}.
+        \begin{figure}[htbp]
+          \centering
+          \input{../fig/nand8}
+          \caption{CMOS NAND8A schematic.}
+          \label{fig:nand8}
+        \end{figure}
+
+      \newpage
+      \subsubsection{AND8A (Symmetrical Design)}\label{s:and8a}
+
+        This is the most basic case, extending 2-input NAND to 8-input NAND,
+        before applying an inverter.
+        The schematic of AND8A is shown in Figure~\ref{fig:and8a}.
+        MOS parameters are specified in \hyperref[s:nand8a]{NAND8A}.
+        \begin{figure}[htbp]
+          \centering
+          \input{../fig/and8a}
+          \caption{CMOS AND8A schematic.}
+          \label{fig:and8a}
+        \end{figure}
+
+        The simulation result with \texttt{ngspice and8a.cir} is shown in
+        Table~\ref{tab:and8a} and Figure~\ref{fig:and8a_res}.
+        \begin{table}[htbp]
+          \centering
+          \caption{AND8A gate simulation result.}
+          \label{tab:and8a}
+          \begin{tabular}{cS[table-format=3.1]S[table-format=3.1]S[table-format=3.1]S[table-format=3.1]S[table-format=2.3]S[table-format=1.3]}
+            \toprule
+            PVT Condition   & {$t_r$ (ps)} & {$t_f$ (ps)} & {$t_{pdr}$ (ps)} & {$t_{pdf}$ (ps)} & {P static (\si{\uW})} & {P dynamic (\si{\uW})} \\\midrule
+            0.9\,V, SS, 70°C  & 132.6   & 136.9   & 137.3     & 159.9     & 0.076         & 2.366          \\
+            1.35\,V, SS, 70°C & 110.6   & 124.4   & 102.4     & 125.9     & 1.023         & 5.591          \\
+            1.0\,V, NOM, 25°C & 90.5    & 99.2    & 83.8      & 110.5     & 0.227         & 2.733          \\
+            1.5\,V, NOM, 25°C & 79.8    & 95.0    & 69.4      & 92.4      & 6.566         & 9.669          \\
+            1.1\,V, FF, 0°C   & 72.5    & 84.6    & 62.7      & 89.4      & 0.955         & 5.321          \\
+            1.65\,V, FF, 0°C  & 69.1    & 83.6    & 54.2      & 75.3      & 51.582        & 1.121          \\
+          \bottomrule
+          \end{tabular}
+        \end{table}
+        \begin{figure}[htbp]
+          \includeres{and8a}
+          \caption{Response of the AND8A gate.}
+          \label{fig:and8a_res}
+        \end{figure}
+
+      \newpage
+      \subsubsection{AND8B (NAND4A\texttimes2 + NOR2\texttimes1)}\label{s:and8b}
+
+        The schematic design using 2 NAND4A gates and 1 NOR gate is shown in Figure~\ref{fig:and8b}.
+        \begin{figure}[htbp]
+          \centering
+          \input{../fig/and8b}
+          \caption{CMOS AND8B schematic.}
+          \label{fig:and8b}
+        \end{figure}
+
+        The simulation result with \texttt{ngspice and8b.cir} is shown in
+        Table~\ref{tab:and8b} and Figure~\ref{fig:and8b_res}.
+        \begin{table}[htbp]
+          \centering
+          \caption{AND8B gate simulation result.}
+          \label{tab:and8b}
+          \begin{tabular}{cS[table-format=3.1]S[table-format=3.1]S[table-format=3.1]S[table-format=3.1]S[table-format=2.3]S[table-format=2.3]}
+            \toprule
+            PVT Condition   & {$t_r$ (ps)} & {$t_f$ (ps)} & {$t_{pdr}$ (ps)} & {$t_{pdf}$ (ps)} & {P static (\si{\uW})} & {P dynamic (\si{\uW})} \\\midrule
+            0.9\,V, SS, 70°C  & 118.8   & 131.7   & 102.8     & 106.2     & 0.030         & 2.233           \\
+            1.35\,V, SS, 70°C & 96.2    & 113.1   & 78.3      & 83.3      & 0.641         & 6.204           \\
+            1.0\,V, NOM, 25°C & 77.2    & 94.9    & 62.7      & 73.0      & 0.125         & 2.592           \\
+            1.5\,V, NOM, 25°C & 65.7    & 85.5    & 52.0      & 61.0      & 4.895         & 12.301          \\
+            1.1\,V, FF, 0°C   & 59.4    & 79.9    & 46.2      & 58.8      & 0.510         & 5.289           \\
+            1.65\,V, FF, 0°C  & 53.3    & 74.3    & 30.5      & 50.3      & 43.767        & 11.248          \\
+          \bottomrule
+          \end{tabular}
+        \end{table}
+        \begin{figure}[htbp]
+          \includeres{and8b}
+          \caption{Response of the AND8B gate.}
+          \label{fig:and8b_res}
+        \end{figure}
+
+      \newpage
+      \subsubsection{AND8C (AND4B\texttimes2 + AND2\texttimes1)}\label{s:and8c}
+
+        An AND4B gate is composed of 2 NAND gates and 1 NOR gate.
+        The schematic design of AND8C using 2 NAND4A gates and 1 NOR gate is shown in Figure~\ref{fig:and8c}.
+        \begin{figure}[htbp]
+          \centering
+          \input{../fig/and8c}
+          \caption{CMOS AND8C schematic.}
+          \label{fig:and8c}
+        \end{figure}
+
+        The simulation result with \texttt{ngspice and8c.cir} is shown in
+        Table~\ref{tab:and8c} and Figure~\ref{fig:and8c_res}.
+        \begin{table}[htbp]
+          \centering
+          \caption{AND8C gate simulation result.}
+          \label{tab:and8c}
+          \begin{tabular}{cS[table-format=3.1]S[table-format=3.1]S[table-format=3.1]S[table-format=3.1]S[table-format=2.3]S[table-format=2.3]}
+            \toprule
+            PVT Condition   & {$t_r$ (ps)} & {$t_f$ (ps)} & {$t_{pdr}$ (ps)} & {$t_{pdf}$ (ps)} & {P static (\si{\uW})} & {P dynamic (\si{\uW})} \\\midrule
+            0.9\,V, SS, 70°C  & 118.8   & 120.3   & 103.3     & 105.0     & 0.111         & 3.067          \\
+            1.35\,V, SS, 70°C & 96.7    & 102.6   & 79.8      & 83.5      & 1.253         & 9.458          \\
+            1.0\,V, NOM, 25°C & 81.5    & 86.9    & 68.4      & 73.3      & 0.301         & 4.164          \\
+            1.5\,V, NOM, 25°C & 69.1    & 77.8    & 56.6      & 62.4      & 8.471         & 16.348         \\
+            1.1\,V, FF, 0°C   & 65.0    & 73.0    & 53.6      & 60.0      & 1.175         & 6.652          \\
+            1.65\,V, FF, 0°C  & 47.9    & 67.8    & 46.9      & 52.2      & 73.357        & 20.798         \\
+          \bottomrule
+          \end{tabular}
+        \end{table}
+        \begin{figure}[htbp]
+          \includeres{and8c}
+          \caption{Response of the AND8C gate.}
+          \label{fig:and8c_res}
+        \end{figure}
+
+      \newpage
+      \subsubsection{Analysis}
+
+        Among the three designs (\hyperref[s:and8a]{AND8A}, \hyperref[s:and8b]{AND8B} and \hyperref[s:and8c]{AND8C}),
+        \hyperref[s:and8b]{AND8B} has the smallest latency,
+        closely followed by \hyperref[s:and8c]{AND8C},
+        and the largest latency is observed with \hyperref[s:and8a]{AND8A}.
+        Compared with \hyperref[s:and8b]{AND8B}, the fan-in of \hyperref[s:and8b]{AND8B} is significantly reduced,
+        resulting in lower latency.
+        Though \hyperref[s:and8c]{AND8C} has an even smaller fan-in, the number of stages in the circuit is larger than that of \hyperref[s:and8b]{AND8B}.
+        Thus, \hyperref[s:and8b]{AND8B} achieves a reasonable tradeoff, and has the lowest latency.
+
+        There are also some other observations:
+        \begin{itemize}
+          \item A larger VDD can reduce the latency to some extent, but resulting in much larger power consumption.
+          \item A faster operating corner ($\text{FF} > \text{NOM} > \text{SS}$) will help cut down latency, but also increases power.
+          \item A higher temperature increases power in return for a reduced latency.
+        \end{itemize}
+
+      \subsection{Clock Controlled SR Latch}
+
+        \subsubsection{Schematic Design}
+
+          The schematic design of the clock controlled SR latch is shown in Figure~\ref{fig:sr_latch},
+          with 2 PMOS and 6 NMOS.
+          \begin{figure}[htbp]
+            \centering
+            \input{../fig/SR_latch_clk}
+            \caption{CMOS clock controlled SR latch schematic.}
+            \label{fig:sr_latch}
+          \end{figure}
+
+          \begin{lstlisting}[title={Clock Controlled SR Latch Subcircuit}]
+* .param WL = 5
+.subckt SR_LATCH_CLK gnd s r clk q qn vdd
+  *  src  gate drain body type
+  M1 qn   q    gnd   gnd  NMOS_VTL W=     90nm L=45nm
+  M2 qn   q    vdd   vdd  PMOS_VTL W=    270nm L=45nm
+  M3 q    qn   gnd   gnd  NMOS_VTL W=     90nm L=45nm
+  M4 q    qn   vdd   vdd  PMOS_VTL W=    270nm L=45nm
+  M5 ts   s    gnd   gnd  NMOS_VTL W={WL*45nm} L=45nm
+  M6 qn   clk  ts    gnd  NMOS_VTL W={WL*45nm} L=45nm
+  M7 tr   r    gnd   gnd  NMOS_VTL W={WL*45nm} L=45nm
+  M8 q    clk  tr    gnd  NMOS_VTL W={WL*45nm} L=45nm
+.ends SR_LATCH_CLK
+          \end{lstlisting}
+
+          You need to specify the parameter \texttt{WL},
+          for example \texttt{.param WL = 5}.
+
+        \newpage
+        \subsubsection{MOS W/L Design}
+          We need to determine the appropriate $W/L$ for $M_5$ to $M_8$.
+          Using a sweep, implemented by \texttt{alterparam} within a \texttt{foreach} loop,
+          we can obtain Figure~\ref{fig:sr_latch_wl}.
+          \begin{figure}[htbp]
+            \includeres{sr_latch_wl}
+            \caption{Clock controlled SR latch with different $W/L$ values.}
+            \label{fig:sr_latch_wl}
+          \end{figure}
+
+          Clearly, we need $W/L>4.5$ (at least $4.2$) for the latch to work properly.
+          ($M_1$/$M_3$ and $M_2$/$M_4$ have $W/L$ as $2$ and $6$, respectively.)
+
+        \subsubsection{Simulation}
+
+          The response of NOR2 gate is given in Figure~\ref{fig:sr_latch_res}
+          when simulating with \texttt{ngspice SR\_latch\_clk.cir}.
+          \begin{figure}[htbp]
+            \includeres{sr_latch}
+            \caption{Response of the clock controlled SR latch when $W/L=6$.}
+            \label{fig:sr_latch_res}
+          \end{figure}
+
+  \section{License}
+
+    Copyright \copyright{} 2023 Wuqiong Zhao (\texttt{me@wqzhao.org}).
+    This project is distributed by an \href{https://github.com/Teddy-van-Jerry/ngspice-cmos/blob/master/LICENSE}{MIT License}.
+
+  \phantomsection
+  \addcontentsline{toc}{section}{References}
+  \printbibliography
+
+  \newpage
   \appendix
+  \section{Resources}
 
-  \section{Links}
-    \begin{itemize}
-      \item GitHub: \href{https://github.com/Teddy-van-Jerry/ngspice-cmos}{Teddy-van-Jerry/ngspice-cmos}
-      \item Website: \href{https://spice.tvj.one}{spice.tvj.one}
-    \end{itemize}
+    \subsection{Links}
+      \begin{itemize}
+        \item GitHub: \href{https://github.com/Teddy-van-Jerry/ngspice-cmos}{Teddy-van-Jerry/ngspice-cmos}
+        \item Website: \href{https://spice.tvj.one}{spice.tvj.one}
+      \end{itemize}
+
+    \subsection{Schematic Graph}
+      All schematic graphs in this document is drawn with Ti\textit{k}Z using \LaTeX{},
+      you can find the source code in the GitHub repository.
 
   \section{Source Code}
 
@@ -186,5 +574,36 @@
     \subsection{AND2}
       \lstinputlisting{../and2.inc}
       \lstinputlisting{../and2.cir}
+
+    \subsection{NOR2}
+      \lstinputlisting{../nor2.inc}
+      \lstinputlisting{../nor2.cir}
+
+    \subsection{NAND4}
+      \lstinputlisting{../nand4a.inc}
+
+    \subsection{AND4}
+      \lstinputlisting{../and4b.inc}
+
+    \subsection{AND8}
+      \subsubsection{Test Circuit}
+        \lstinputlisting{../and8_test_inv2.inc}
+        \lstinputlisting{../and8_test_pow.inc}
+      \subsubsection{AND8A}
+        \lstinputlisting{../and8a.inc}
+        \lstinputlisting{../and8a.cir}
+      \subsubsection{AND8B}
+        \lstinputlisting{../and8b.inc}
+        \lstinputlisting{../and8b.cir}
+      \subsubsection{AND8C}
+        \lstinputlisting{../and8c.inc}
+        \lstinputlisting{../and8c.cir}
+
+    \subsection{Clock Controlled SR Latch}
+      \lstinputlisting{../SR_latch_clk.inc}
+      \lstinputlisting{../SR_latch_clk.cir}
+
+    \subsection{MISC}
+      \lstinputlisting{../.spiceinit}
 
 \end{document}

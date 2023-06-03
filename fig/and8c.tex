@@ -1,0 +1,45 @@
+\begin{circuitikz}[
+  , null n/.style = {
+    , inner sep = 0
+    , outer sep = 0
+    , minimum size = 0
+  }
+  , la/.style = {
+    , font = \sffamily
+  }
+  , P/.style = {
+    , pmos
+    , font = \footnotesize
+  }
+  , N/.style = {
+    , nmos
+    , font = \footnotesize
+  }
+]
+  \draw
+    (0, 0) node[nand port, number inputs=2] (nand) {}
+    (2, 0) node[not port] (inv) {}
+    (-2.5, 2*0.8) node[nor port] (nor1) {}
+    (-2.5, -2*0.8) node[nor port] (nor2) {}
+    (-5, 3*0.8) node [nand port] (nand1) {}
+    (-5, 1*0.8) node [nand port] (nand2) {}
+    (-5, -1*0.8) node [nand port] (nand3) {}
+    (-5, -3*0.8) node [nand port] (nand4) {}
+    (nor1.out) -| (nand.in 1)
+    (nor2.out) -| (nand.in 2)
+    (nand1.out) -| (nor1.in 1)
+    (nand2.out) -| (nor1.in 2)
+    (nand3.out) -| (nor2.in 1)
+    (nand4.out) -| (nor2.in 2)
+    (nand.out) -- (inv.in)
+    (inv.out) to[short, -o] ++ (0, 0) node [right, la] {out}
+    (nand1.in 1) to[short, -o] ++ (-0, 0) node [left, la] {in1}
+    (nand1.in 2) to[short, -o] ++ (-0, 0) node [left, la] {in2}
+    (nand2.in 1) to[short, -o] ++ (-0, 0) node [left, la] {in3}
+    (nand2.in 2) to[short, -o] ++ (-0, 0) node [left, la] {in4}
+    (nand3.in 1) to[short, -o] ++ (-0, 0) node [left, la] {in5}
+    (nand3.in 2) to[short, -o] ++ (-0, 0) node [left, la] {in6}
+    (nand4.in 1) to[short, -o] ++ (-0, 0) node [left, la] {in7}
+    (nand4.in 2) to[short, -o] ++ (-0, 0) node [left, la] {in8}
+  ;
+\end{circuitikz}%
