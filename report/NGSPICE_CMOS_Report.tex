@@ -159,7 +159,7 @@
     \begin{itemize}
       \item $t_r$ (\texttt{tr}): rise time (from output crossing $0.1V_{DD}$ to $0.9V_{DD}$);
       \item $t_f$ (\texttt{tf}): fall time (from output crossing $0.9V_{DD}$ to $0.1V_{DD}$);
-      \item $t_{pdr}$ (\texttt{tpdf}): rising propagation delay (from input to rising output crossing $V_{DD}/2$);
+      \item $t_{pdr}$ (\texttt{tpdr}): rising propagation delay (from input to rising output crossing $V_{DD}/2$);
       \item $t_{pdf}$ (\texttt{tpdf}): falling propagation delay (from input to falling output crossing $V_{DD}/2$);
       \item $t_{pd}$ (\texttt{tpd}): average propagation delay ($t_{pd} = (t_{pdr} + t_{pdf})/2$).
     \end{itemize}
@@ -219,6 +219,12 @@
 
       Simulate with \texttt{ngspice inv.cir}, and
       the response of the inverter can be obtained as depicted in Figure~\ref{fig:inv_res}.
+      The delay parameters are
+      $t_r=\qty{119}{ps}$, 
+      $t_f=\qty{120}{ps}$,
+      $t_{pdr}=\qty{60}{ps}$,
+      $t_{pdf}=\qty{64}{ps}$
+      and $t_{pd}=\qty{62}{ps}$.
       \begin{figure}[htbp]
         \includeres{inv}
         \caption{Response of the inverter.}
