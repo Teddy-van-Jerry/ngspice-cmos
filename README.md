@@ -298,7 +298,7 @@ Among the three designs ([AND8A](#and8a-symmetrical-design), [AND8B](#and8b-nand
 [AND8B](#and8b-nand4a--2--nor2--1) has the smallest latency,
 closely followed by [AND8c](#and8c-and4b--2--and2--1),
 and the largest latency is observed with [AND8A](#and8a-symmetrical-design).
-Compared with [AND8B](#and8b-nand4a--2--nor2--1), the fan-in of [AND8B](#and8b-nand4a--2--nor2--1) is significantly reduced,
+Compared with [AND8A](#and8a-symmetrical-design), the fan-in of [AND8B](#and8b-nand4a--2--nor2--1) is significantly reduced,
 resulting in lower latency.
 Though [AND8C](#and8c-and4b--2--and2--1) has an even smaller fan-in, the number of stages in the circuit is larger than that of [AND8B](#and8b-nand4a--2--nor2--1).
 Thus, [AND8B](#and8b-nand4a--2--nor2--1) achieves a reasonable tradeoff, and has the lowest latency.
